@@ -8,6 +8,8 @@
   "authors": [
     "kurrycat",
     "CodeKid0 (Fabric port)",
+    "Exterminate",
+    "Zpiboo",
     "Contributors"
   ],
   "contact": {
@@ -19,7 +21,7 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-        "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_5.MPKMod"
+        "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_6.MPKMod"
     ]
   },
   "mixins": [

@@ -30,7 +30,11 @@ public class Serializer {
         module.addDeserializer(Color.class, new ColorDeserializer());
 
         mapper.registerModule(module);
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, JsonTypeInfo.As.PROPERTY);
+        mapper.activateDefaultTyping(
+                mapper.getPolymorphicTypeValidator(),
+                ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE,
+                JsonTypeInfo.As.PROPERTY
+        );
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
