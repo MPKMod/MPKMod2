@@ -17,9 +17,9 @@ configure(
     dependencies {
         library 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5'
 
-        library 'com.fasterxml.jackson.core:jackson-core:2.20.0'
-        library 'com.fasterxml.jackson.core:jackson-annotations:2.20'
-        library 'com.fasterxml.jackson.core:jackson-databind:2.20'
+        library 'com.fasterxml.jackson.core:jackson-core:2.8.8'
+        library 'com.fasterxml.jackson.core:jackson-annotations:2.8.8'
+        library 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'

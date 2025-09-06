@@ -52,7 +52,8 @@ public class Player {
     public String lastTiming = "None";
     public boolean sprinting = false;
     public BoundingBox3D boundingBox = null;
-
+    public String sidestep = "None";
+    public boolean wadStart = false;
 
     @InfoString.Getter
     public static LandingBlock getLatestLB() {
@@ -66,7 +67,7 @@ public class Player {
     public static List<String> compressedInputHistory() {
         return getInputHistory().stream()
                 .reduce(new ArrayList<Tuple<Integer, TimingInput>>(), (l, t) -> {
-                    if (l.size() == 0) {
+                    if (l.isEmpty()) {
                         l.add(new Tuple<>(1, t));
                         return l;
                     }
@@ -272,12 +273,31 @@ public class Player {
             return this;
         }
 
+        //Blip
         lastBlip = prev.lastBlip;
         if (onGround && !prev.onGround && pos.getY() == prev.pos.getY() && !prev.jumpTick) {
             if (lastBlip == null) lastBlip = new Blip(1, pos);
             else lastBlip = new Blip(lastBlip.chainedBlips + 1, pos);
         } else if (onGround) {
             if (lastBlip != null) lastBlip = new Blip(0, lastBlip.lastChainedBlips, lastBlip.pos);
+        }
+
+        //Sidestep
+        sidestep = prev.sidestep;
+        wadStart = prev.wadStart;
+        if (jumpTick) {
+            if (prev.keyInput.isMovingSideways() && keyInput.isMovingSideways() && prev.keyInput.hasSwappedDirection(keyInput)) {
+                sidestep = "WDWA";
+            } else if (prev.keyInput.isMovingSideways() && !keyInput.isMovingSideways()) {
+                sidestep = "None";
+                wadStart = true;
+            } else {
+                sidestep = "None";
+                wadStart = false;
+            }
+        } else if (wadStart && keyInput.isMovingSideways()) {
+            sidestep = airtime == 1 ? "WAD" : "WAD " + airtime + "t";
+            wadStart = false;
         }
 
         Player.updateDisplayInstance();
@@ -364,6 +384,11 @@ public class Player {
     public Player setLastPos(Vector3D lastPos) {
         this.lastPos = lastPos;
         return this;
+    }
+
+    @InfoString.Getter
+    public String getSidestep() {
+        return sidestep;
     }
 
     @InfoString.DataClass
@@ -483,6 +508,10 @@ public class Player {
 
         public boolean isMovingSideways() {
             return left ^ right;
+        }
+
+        public boolean hasSwappedDirection(KeyInput other) {
+            return (this.left && other.right) || (this.right && other.left);
         }
     }
 }
