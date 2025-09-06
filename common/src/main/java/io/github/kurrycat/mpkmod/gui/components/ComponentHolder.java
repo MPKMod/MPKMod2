@@ -174,9 +174,9 @@ public abstract class ComponentHolder {
     }
 
     public void setWidth(double w, boolean percent) {
-        if (this.size.getY() == w && percent == PERCENT.HAS_SIZE_X(percentFlag)) return;
+        if (this.size.getX() == w && percent == PERCENT.HAS_SIZE_X(percentFlag)) return;
         percentFlag = PERCENT.SET_SIZE_X(percentFlag, percent);
-        this.size.setY(PERCENT.HAS_SIZE_Y(percentFlag) ? MathUtil.constrain01(w) : w);
+        this.size.setX(PERCENT.HAS_SIZE_X(percentFlag) ? MathUtil.constrain01(w) : w);
         updatePosAndSize();
     }
 
