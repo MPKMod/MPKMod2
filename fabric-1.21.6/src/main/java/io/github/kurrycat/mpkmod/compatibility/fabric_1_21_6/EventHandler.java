@@ -103,6 +103,7 @@ public class EventHandler {
                             new Vector3D(playerBB.minX, playerBB.minY, playerBB.minZ),
                             new Vector3D(playerBB.maxX, playerBB.maxY, playerBB.maxZ)
                     ))
+                    .setFlying(mcPlayer.getAbilities().flying)
                     .constructKeyInput()
                     .setKeyMSList(timeQueue)
                     .buildAndSave();

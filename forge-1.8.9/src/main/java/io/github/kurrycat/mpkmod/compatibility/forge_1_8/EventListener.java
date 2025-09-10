@@ -96,6 +96,7 @@ public class EventListener {
                         new Vector3D(playerBB.minX, playerBB.minY, playerBB.minZ),
                         new Vector3D(playerBB.maxX, playerBB.maxY, playerBB.maxZ)
                     ))
+                    .setFlying(mcPlayer.capabilities.isFlying)
                     .constructKeyInput()
                     .setKeyMSList(timeQueue.copy())
                     .buildAndSave();

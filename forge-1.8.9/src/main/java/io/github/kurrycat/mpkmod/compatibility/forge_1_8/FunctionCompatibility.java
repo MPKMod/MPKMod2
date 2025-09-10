@@ -1,11 +1,7 @@
 package io.github.kurrycat.mpkmod.compatibility.forge_1_8;
 
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.*;
-import io.github.kurrycat.mpkmod.util.BoundingBox3D;
-import io.github.kurrycat.mpkmod.util.Debug;
-import io.github.kurrycat.mpkmod.util.Vector2D;
-import io.github.kurrycat.mpkmod.util.Vector3D;
-import io.github.kurrycat.mpkmod.util.ScissorBox;
+import io.github.kurrycat.mpkmod.util.*;
 import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -35,8 +31,8 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FunctionCompatibility implements FunctionHolder,
