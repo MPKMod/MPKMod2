@@ -50,9 +50,9 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         minecraftVersions.add("1.8.9")
     }
-    github {
+    /*github {
         repository = "MPKMod/MPKMod2"
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
         commitish = "main"
-    }
+    }*/
 }
