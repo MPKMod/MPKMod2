@@ -46,18 +46,14 @@ public class Label extends Component {
         if (highlighted) Renderer2D.drawDottedRect(getDisplayedPos(), getDisplayedSize(), 1, 1, 1, Color.BLACK);
     }
 
-    @Override
-    public Vector2D getDisplayedSize() {
-        return FontRenderer.getStringSize(text, fontSize);
-    }
-
-    public Vector2D getSizeForJson() {
+    protected Vector2D getTextSize() {
         return FontRenderer.getStringSize(text, fontSize);
     }
 
     @JsonProperty
     public Label setText(String text) {
         this.text = text;
+        setSize(getTextSize());
         return this;
     }
 
