@@ -52,17 +52,13 @@ public class InfoLabel extends Label implements TickThread.Tickable {
     }
 
     @Override
-    public Vector2D getDisplayedSize() {
-        return FontRenderer.getStringSize(getFormattedText(), fontSize);
-    }
-
-    @JsonIgnore
-    public Vector2D getSizeForJson() {
+    protected Vector2D getTextSize() {
         return FontRenderer.getStringSize(getFormattedText(), fontSize);
     }
 
     public void tick() {
         formattedText = infoString.get();
+        setSize(getTextSize());
     }
 
     @Override
