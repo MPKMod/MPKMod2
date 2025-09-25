@@ -1,7 +1,7 @@
-package io.github.kurrycat.mpkmod.compatibility.forge_1_8;
+package io.github.kurrycat.mpkmod.compatibility.forge_1_12_2;
 
 import io.github.kurrycat.mpkmod.compatibility.API;
-import io.github.kurrycat.mpkmod.compatibility.forge_1_8.network.MPKForgeNetworking;
+import io.github.kurrycat.mpkmod.compatibility.forge_1_12_2.network.MPKForgeNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
