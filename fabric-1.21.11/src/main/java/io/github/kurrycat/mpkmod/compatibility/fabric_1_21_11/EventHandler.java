@@ -1,0 +1,124 @@
+package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11;
+
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.vertex.PoseStack;
+import io.github.kurrycat.mpkmod.compatibility.API;
+import io.github.kurrycat.mpkmod.compatibility.MCClasses.Player;
+import io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.ticks.ButtonMS;
+import io.github.kurrycat.mpkmod.ticks.ButtonMSList;
+import io.github.kurrycat.mpkmod.util.BoundingBox3D;
+import io.github.kurrycat.mpkmod.util.Vector3D;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.util.Util;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+
+public class EventHandler {
+    private static final ButtonMSList timeQueue = new ButtonMSList();
+
+    /**
+     * @param keyInput The Minecraft {@link KeyEvent} object.
+     * @param action   The action, where 0 = unpressed, 1 = pressed, 2 = held.
+     */
+    public void onKey(KeyEvent keyInput, int action) {
+        Options options = Minecraft.getInstance().options;
+        long eventNanos = Util.getNanos();
+
+        InputConstants.Key inputKey = InputConstants.getKey(new KeyEvent(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
+
+        int[] keys = {
+                ((KeyMappingAccessor) options.keyUp).getKey().getValue(),
+                ((KeyMappingAccessor) options.keyLeft).getKey().getValue(),
+                ((KeyMappingAccessor) options.keyDown).getKey().getValue(),
+                ((KeyMappingAccessor) options.keyRight).getKey().getValue(),
+                ((KeyMappingAccessor) options.keySprint).getKey().getValue(),
+                ((KeyMappingAccessor) options.keyShift).getKey().getValue(),
+                ((KeyMappingAccessor) options.keyJump).getKey().getValue()
+        };
+
+        for (int i = 0; i < keys.length; i++) {
+            if (keyInput.key() == keys[i]) {
+                timeQueue.add(ButtonMS.of(ButtonMS.Button.values()[i], eventNanos, action == 1));
+            }
+        }
+
+        if (action == 1) {
+            FunctionCompatibility.pressedButtons.add(inputKey.getValue());
+        } else if (action == 0) {
+            FunctionCompatibility.pressedButtons.remove(inputKey.getValue());
+        }
+
+        API.Events.onKeyInput(keyInput.key(), inputKey.getDisplayName().getString(), action == 1);
+
+        MPKMod.keyBindingMap.forEach((id, keyBinding) -> {
+            if (keyBinding.isDown()) {
+                API.Events.onKeybind(id);
+            }
+        });
+    }
+
+    public void onInGameOverlayRender(GuiGraphics drawContext, DeltaTracker renderTickCounter) {
+        drawContext.pose().pushMatrix();
+        API.<FunctionCompatibility>getFunctionHolder().drawContext = drawContext;
+        API.Events.onRenderOverlay();
+        drawContext.pose().popMatrix();
+    }
+
+    public void onRenderWorldOverlay(PoseStack matrixStack, float tickDelta) {
+        MPKMod.INSTANCE.matrixStack = matrixStack;
+        matrixStack.pushPose();
+        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().position().reverse();
+        MPKMod.INSTANCE.matrixStack.translate(pos);
+        API.Events.onRenderWorldOverlay(tickDelta);
+        matrixStack.popPose();
+    }
+
+    public void onClientTickStart(Minecraft mc) {
+        if (mc.isPaused() || mc.level == null) return;
+        API.Events.onTickStart();
+    }
+
+    public void onClientTickEnd(Minecraft mc) {
+        if (mc.isPaused() || mc.level == null) return;
+        LocalPlayer mcPlayer = mc.player;
+
+        if (mcPlayer != null) {
+            AABB playerBB = mcPlayer.getBoundingBox();
+            new Player()
+                    .setPos(new Vector3D(mcPlayer.getX(), mcPlayer.getY(), mcPlayer.getZ()))
+                    .setLastPos(new Vector3D(mcPlayer.xo, mcPlayer.yo, mcPlayer.zo))
+                    .setMotion(new Vector3D(mcPlayer.getDeltaMovement().x, mcPlayer.getDeltaMovement().y, mcPlayer.getDeltaMovement().z))
+                    .setRotation(mcPlayer.getRotationVector().y, mcPlayer.getRotationVector().x)
+                    .setOnGround(mcPlayer.onGround())
+                    .setSprinting(mcPlayer.isSprinting())
+                    .setBoundingBox(new BoundingBox3D(
+                            new Vector3D(playerBB.minX, playerBB.minY, playerBB.minZ),
+                            new Vector3D(playerBB.maxX, playerBB.maxY, playerBB.maxZ)
+                    ))
+                    .setFlying(mcPlayer.getAbilities().flying)
+                    .constructKeyInput()
+                    .setKeyMSList(timeQueue)
+                    .buildAndSave();
+            timeQueue.clear();
+        }
+
+        API.Events.onTickEnd();
+    }
+
+
+    public void onServerConnect(ClientPacketListener clientPlayNetworkHandler, PacketSender packetSender, Minecraft minecraftClient) {
+        API.Events.onServerConnect(clientPlayNetworkHandler.getConnection().isMemoryConnection());
+    }
+
+    public void onServerDisconnect(ClientPacketListener clientPlayNetworkHandler, Minecraft minecraftClient) {
+        API.Events.onServerDisconnect();
+    }
+}

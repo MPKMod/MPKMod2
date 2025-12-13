@@ -1,40 +1,25 @@
 plugins {
-    id 'xyz.wagyourtail.unimined' version '1.4.1'
+    id 'fabric-loom' version "1.14-SNAPSHOT"
 
     id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 }
 
-unimined.useGlobalCache = false
-
-unimined.minecraft {
-    version '1.8.9'
-
-    mappings {
-        searge()
-        mcp('stable', '22-1.8.9')
-    }
-
-    minecraftForge {
-        loader project.forge_version
-        mixinConfig "mpkmod.mixins.json"
-    }
-
-    minecraftRemapper.config {
-        ignoreConflicts(true)
-    }
-}
+loom.runs.client.runDir = "../runs/run"
 
 dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
     implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
 }
 
 processResources {
     inputs.property "version", project.version
 
-    filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
-    }
-    filesMatching("mcmod.info") {
+    filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
 }
@@ -44,12 +29,12 @@ publishMods {
     changelog = ""
     type = STABLE
     version = project.version
-    modLoaders.add("forge")
+    modLoaders.add("fabric")
 
     modrinth {
         projectId = "412tAvWq"
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        minecraftVersions.add("1.8.9")
+        minecraftVersions.add("1.21.11")
     }
     /*github {
         repository = "MPKMod/MPKMod2"
