@@ -2,7 +2,9 @@ apply plugin: 'maven-publish'
 
 group = $group
 version = $version
-archivesBaseName = $commonBaseName
+tasks.withType(Jar).configureEach {
+    archiveBaseName.set("${$commonBaseName}")
+}
 
 dependencies {
     compileOnly 'org.apache.logging.log4j:log4j-api:2.0-beta9'
