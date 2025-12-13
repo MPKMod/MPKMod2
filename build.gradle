@@ -7,7 +7,9 @@ configure(
 
     group = $group
     version = $version
-    archivesBaseName = $modBaseName
+    tasks.withType(Jar).configureEach {
+        archiveBaseName.set("${$modBaseName}")
+    }
 
     configurations {
         library
