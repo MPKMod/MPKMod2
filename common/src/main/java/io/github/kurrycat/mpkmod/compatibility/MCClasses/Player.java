@@ -252,9 +252,9 @@ public class Player {
             jumpCooldown = 0;
         }
 
-        lastLanding = landTick ? new PosAndAngle(prev.pos, prev.trueYaw, prev.truePitch) : prev.lastLanding;
-        lastHit = prev.landTick ? new PosAndAngle(prev.pos, prev.trueYaw, prev.truePitch) : prev.lastHit;
-        lastJump = jumpTick ? new PosAndAngle(prev.pos, prev.trueYaw, prev.truePitch) : prev.lastJump;
+        lastLanding = landTick ? new PosAndAngle(prev.pos, trueYaw, truePitch) : prev.lastLanding;
+        lastHit = prev.landTick ? new PosAndAngle(prev.pos, trueYaw, truePitch) : prev.lastHit;
+        lastJump = jumpTick ? new PosAndAngle(prev.pos, trueYaw, truePitch) : prev.lastJump;
 
         deltaYaw = trueYaw - prev.trueYaw;
         if (deltaYaw == 0) deltaYaw = null;
