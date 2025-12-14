@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KeyboardHandler.class)
 public class KeyboardHandlerMixin {
     @Inject(method = "keyPress", at = @At(value = "RETURN"))
-    private void onKey(long window, int action, KeyEvent keyInput, CallbackInfo ci) {
-        if (keyInput.key() != -1) {
-            MPKMod.INSTANCE.eventHandler.onKey(keyInput, action);
+    private void onKey(long window, int action, KeyEvent input, CallbackInfo ci) {
+        if (input.key() != -1) {
+            MPKMod.INSTANCE.eventHandler.onKey(input, action);
         }
     }
 }

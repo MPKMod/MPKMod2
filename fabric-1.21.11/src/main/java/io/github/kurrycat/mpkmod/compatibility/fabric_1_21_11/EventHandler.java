@@ -11,6 +11,7 @@ import io.github.kurrycat.mpkmod.util.BoundingBox3D;
 import io.github.kurrycat.mpkmod.util.Vector3D;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,18 +23,20 @@ import net.minecraft.util.Util;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Map;
+
 public class EventHandler {
     private static final ButtonMSList timeQueue = new ButtonMSList();
 
     /**
-     * @param keyInput The Minecraft {@link KeyEvent} object.
+     * @param input The Minecraft {@link KeyEvent} object.
      * @param action   The action, where 0 = unpressed, 1 = pressed, 2 = held.
      */
-    public void onKey(KeyEvent keyInput, int action) {
+    public void onKey(KeyEvent input, int action) {
         Options options = Minecraft.getInstance().options;
         long eventNanos = Util.getNanos();
 
-        InputConstants.Key inputKey = InputConstants.getKey(new KeyEvent(keyInput.key(), keyInput.scancode(), keyInput.modifiers()));
+        InputConstants.Key inputKey = InputConstants.getKey(new KeyEvent(input.key(), input.scancode(), input.modifiers()));
 
         int[] keys = {
                 ((KeyMappingAccessor) options.keyUp).getKey().getValue(),
@@ -46,7 +49,7 @@ public class EventHandler {
         };
 
         for (int i = 0; i < keys.length; i++) {
-            if (keyInput.key() == keys[i]) {
+            if (input.key() == keys[i]) {
                 timeQueue.add(ButtonMS.of(ButtonMS.Button.values()[i], eventNanos, action == 1));
             }
         }
@@ -57,13 +60,11 @@ public class EventHandler {
             FunctionCompatibility.pressedButtons.remove(inputKey.getValue());
         }
 
-        API.Events.onKeyInput(keyInput.key(), inputKey.getDisplayName().getString(), action == 1);
+        API.Events.onKeyInput(input.key(), inputKey.getDisplayName().getString(), action == 1);
 
-        MPKMod.keyBindingMap.forEach((id, keyBinding) -> {
-            if (keyBinding.isDown()) {
-                API.Events.onKeybind(id);
-            }
-        });
+        if (action != 0) {
+            checkKeyBinding(input.key());
+        }
     }
 
     public void onMouseMove(double x, double y, double dx, double dy) {
@@ -92,6 +93,21 @@ public class EventHandler {
                 (int) x, (int) y, 0, 0,
                 0, System.nanoTime()
         );
+
+        if (action == 1)
+            checkKeyBinding(input.button());
+    }
+
+    private void checkKeyBinding(int keyCode) {
+        for (Map.Entry<String, KeyMapping> keyBindingEntry : MPKMod.keyBindingMap.entrySet()) {
+            InputConstants.Key boundKey = ((KeyMappingAccessor) keyBindingEntry.getValue()).getKey();
+            String keyBindId = keyBindingEntry.getKey();
+
+            if (boundKey.getValue() == keyCode) {
+                API.Events.onKeybind(keyBindId);
+                return;
+            }
+        }
     }
 
     public void onInGameOverlayRender(GuiGraphics drawContext, DeltaTracker renderTickCounter) {
