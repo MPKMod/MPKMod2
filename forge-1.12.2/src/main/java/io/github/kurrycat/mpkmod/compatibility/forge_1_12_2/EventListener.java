@@ -83,6 +83,8 @@ public class EventListener {
     }
 
     private void checkKeyBinding(int keyCode) {
+        if (Minecraft.getMinecraft().currentScreen != null) return;
+
         for (Map.Entry<String, KeyBinding> keyBindingEntry : MPKMod.keyBindingMap.entrySet()) {
             KeyBinding keyBinding = keyBindingEntry.getValue();
             String keyBindingId = keyBindingEntry.getKey();
