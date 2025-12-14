@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Util;
@@ -63,6 +64,34 @@ public class EventHandler {
                 API.Events.onKeybind(id);
             }
         });
+    }
+
+    public void onMouseMove(double x, double y, double dx, double dy) {
+        API.Events.onMouseInput(
+                io.github.kurrycat.mpkmod.util.Mouse.Button.NONE,
+                io.github.kurrycat.mpkmod.util.Mouse.State.NONE,
+                (int) x, (int) y, (int) dx, (int) dy,
+                0, System.nanoTime()
+        );
+    }
+
+    public void onMouseScroll(double vertical, double x, double y) {
+        API.Events.onMouseInput(
+                io.github.kurrycat.mpkmod.util.Mouse.Button.NONE,
+                io.github.kurrycat.mpkmod.util.Mouse.State.NONE,
+                (int) x, (int) y, 0, 0,
+                (int) vertical, System.nanoTime()
+        );
+    }
+
+    public void onMouseButton(MouseButtonInfo input, int action, double x, double y) {
+        API.Events.onMouseInput(
+                io.github.kurrycat.mpkmod.util.Mouse.Button.fromInt(input.button()),
+                input.button() == -1 ? io.github.kurrycat.mpkmod.util.Mouse.State.NONE :
+                        (action == 1 ? io.github.kurrycat.mpkmod.util.Mouse.State.DOWN : io.github.kurrycat.mpkmod.util.Mouse.State.UP),
+                (int) x, (int) y, 0, 0,
+                0, System.nanoTime()
+        );
     }
 
     public void onInGameOverlayRender(GuiGraphics drawContext, DeltaTracker renderTickCounter) {
