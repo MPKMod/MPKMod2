@@ -368,13 +368,9 @@ public class Player {
         return tickHistory.get(i - 1);
     }
 
+    @InfoString.Getter
     public BoundingBox3D getBoundingBox() {
         return boundingBox;
-    }
-
-    @InfoString.Getter
-    public Vector3D getBoundingBoxSize() {
-        return boundingBox.getSize();
     }
 
     public Player setBoundingBox(BoundingBox3D boundingBox) {
@@ -394,10 +390,6 @@ public class Player {
 
     public BoundingBox3D getLastBoundingBox() {
         return getPrevious().getBoundingBox();
-    }
-
-    public Vector3D getLastBoundingBoxSize() {
-        return getLastBoundingBox().getSize();
     }
 
     @InfoString.Getter
