@@ -15,6 +15,7 @@ import java.util.Optional;
 @InfoString.AccessInstance
 public class Minecraft {
     public static String version;
+    public static String vfpVersion = null;
     public static WorldState worldState = WorldState.MENU;
     public static PlayState playState = PlayState.ACTIVE;
 
@@ -42,7 +43,7 @@ public class Minecraft {
 
     @InfoString.Getter
     public static String getMcVersion() {
-        return version;
+        return vfpVersion == null ? version : vfpVersion + " (VFP)";
     }
 
     @InfoString.Getter
@@ -97,7 +98,7 @@ public class Minecraft {
     }
 
     public static boolean setInputs(Float yaw, boolean relYaw, Float pitch, boolean relPitch, int pressedInputs, int releasedInputs, int L, int R) {
-        if (!io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.isSingleplayer()) return false;
+        if (!Minecraft.isSingleplayer()) return false;
         if (!Interface.get().isPresent()) {
             API.LOGGER.info(API.COMPATIBILITY_MARKER, "Failed to set inputs, are you playing on an unsupported minecraft version?");
             return false;
