@@ -1,6 +1,8 @@
 package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.viaversion.viafabricplus.ViaFabricPlus;
+import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
 import io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.network.DataCustomPayload;
@@ -11,7 +13,9 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.KeyMapping.Category;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -46,6 +50,21 @@ public class MPKMod implements ModInitializer {
                 API.Events.onPluginMessage(packet);
             }
         }));
+
+
+        if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
+
+        ViaFabricPlusBase platform = ViaFabricPlus.getImpl();
+
+        platform.registerOnChangeProtocolVersionCallback((oldVersion, newVersion) -> {
+            String newVersionName = newVersion.getName();
+
+            io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.vfpVersion = (
+                    newVersionName.equals(io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.version)
+                            ? null
+                            : newVersionName
+            );
+        });
     }
 
     private void registerKeybindingsFromGUIs() {
@@ -80,7 +99,7 @@ public class MPKMod implements ModInitializer {
     }
 
     private void registerKeyBindings() {
-        for (net.minecraft.client.KeyMapping k : Minecraft.getInstance().options.keyMappings) {
+        for (KeyMapping k : Minecraft.getInstance().options.keyMappings) {
             new KeyBinding(
                     () -> k.getTranslatedKeyMessage().getString(),
                     k.getName(),
