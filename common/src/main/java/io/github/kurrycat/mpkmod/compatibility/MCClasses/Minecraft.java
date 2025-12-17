@@ -17,6 +17,7 @@ public class Minecraft {
     public static String version;
     public static WorldState worldState = WorldState.MENU;
     public static PlayState playState = PlayState.ACTIVE;
+    public static boolean sprintToggled = false;
 
     @InfoString.Getter
     public static String getIp() {
@@ -109,12 +110,21 @@ public class Minecraft {
         return Interface.get().map(Interface::isF3Enabled).orElse(false);
     }
 
+    @InfoString.Getter
+    public static boolean isSprintToggled() {
+        return sprintToggled;
+    }
+
+    public static void toggleSprint() {
+        sprintToggled = !sprintToggled;
+    }
+
+
     public enum WorldState {
         MENU,
         SINGLE_PLAYER,
         MULTI_PLAYER;
     }
-
 
     public enum PlayState {
         ACTIVE,
