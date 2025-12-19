@@ -2,6 +2,7 @@ package io.github.kurrycat.mpkmod.compatibility.forge_1_12_2;
 
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.forge_1_12_2.network.MPKForgeNetworking;
+import io.github.kurrycat.mpkmod.compatibility.forge_1_12_2.overrides.SprintKeyBindingOverride;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
@@ -41,6 +42,8 @@ public class MPKMod {
     public void init(FMLInitializationEvent event) {
         API.preInit(getClass());
 
+        overrideSprintKeyBinding();
+
         API.guiScreenMap.forEach((id, guiScreen) -> {
             if (guiScreen.shouldCreateKeyBind())
                 registerKeyBinding(id);
@@ -57,6 +60,20 @@ public class MPKMod {
 
         registerKeyBindings();
         API.init(ForgeVersion.mcVersion);
+    }
+
+    private void overrideSprintKeyBinding() {
+        GameSettings gs = Minecraft.getMinecraft().gameSettings;
+        KeyBinding oldSprintKey = gs.keyBindSprint;
+
+        gs.keyBindSprint = new SprintKeyBindingOverride(oldSprintKey);
+
+        for (int i = 0; i < gs.keyBindings.length; i++) {
+            if (gs.keyBindings[i] == oldSprintKey) {
+                gs.keyBindings[i] = gs.keyBindSprint;
+                break;
+            }
+        }
     }
 
     public static void registerKeyBinding(String id) {

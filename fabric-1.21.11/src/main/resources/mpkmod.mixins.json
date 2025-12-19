@@ -10,7 +10,8 @@
     "KeyMappingAccessor",
     "KeyboardHandlerMixin",
     "MinecraftMixin",
-    "MouseHandlerMixin"
+    "MouseHandlerMixin",
+    "ToggleSprintKeyMixin"
   ],
   "injectors": {
     "defaultRequire": 1

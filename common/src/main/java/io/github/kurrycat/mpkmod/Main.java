@@ -3,8 +3,8 @@ package io.github.kurrycat.mpkmod;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.*;
 import io.github.kurrycat.mpkmod.discord.DiscordRPC;
-import io.github.kurrycat.mpkmod.events.Event;
 import io.github.kurrycat.mpkmod.events.*;
+import io.github.kurrycat.mpkmod.events.Event;
 import io.github.kurrycat.mpkmod.gui.TickThread;
 import io.github.kurrycat.mpkmod.gui.components.Component;
 import io.github.kurrycat.mpkmod.gui.components.InputHistory;
@@ -19,7 +19,10 @@ import io.github.kurrycat.mpkmod.landingblock.LandingBlock;
 import io.github.kurrycat.mpkmod.modules.MPKModule;
 import io.github.kurrycat.mpkmod.modules.ModuleManager;
 import io.github.kurrycat.mpkmod.ticks.TimingStorage;
-import io.github.kurrycat.mpkmod.util.*;
+import io.github.kurrycat.mpkmod.util.BoundingBox3D;
+import io.github.kurrycat.mpkmod.util.ItrUtil;
+import io.github.kurrycat.mpkmod.util.MathUtil;
+import io.github.kurrycat.mpkmod.util.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -70,6 +73,8 @@ public class Main implements MPKModule {
         );
 
         API.registerGUIScreen("options_gui", new OptionsGuiScreen());
+
+        API.registerKeyBinding("togglesprint", Minecraft::toggleSprint);
     }
 
     @Override
