@@ -6,12 +6,18 @@ plugins {
 
 loom.runs.client.runDir = "../runs/run"
 
+repositories {
+    maven { url = "https://repo.viaversion.com" }
+    maven { url = "https://maven.lenni0451.net/everything" }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modCompileOnly "com.viaversion:viafabricplus-api:4.4.0"
 
     implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
 }
