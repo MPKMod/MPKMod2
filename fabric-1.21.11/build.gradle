@@ -9,6 +9,7 @@ loom.runs.client.runDir = "../runs/run"
 repositories {
     maven { url = "https://repo.viaversion.com" }
     maven { url = "https://maven.lenni0451.net/everything" }
+    maven { url = "https://maven.terraformersmc.com/" }
 }
 
 dependencies {
@@ -18,6 +19,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modCompileOnly "com.viaversion:viafabricplus-api:4.4.0"
+    modImplementation "com.terraformersmc:modmenu:17.0.0-beta.1"
 
     implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
 }
