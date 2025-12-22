@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
         "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.MPKMod"
+    ],
+    "modmenu": [
+      "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.MPKModMenu"
     ]
   },
   "mixins": [
