@@ -304,6 +304,10 @@ public class FunctionCompatibility implements FunctionHolder,
         return String.valueOf(net.minecraft.client.Minecraft.getInstance().getFps());
     }
 
+    public long getPing() {
+        return net.minecraft.client.Minecraft.getInstance().getConnection().getServerData().ping;
+    }
+
     public void displayGuiScreen(MPKGuiScreen screen) {
         net.minecraft.client.Minecraft.getInstance().setScreen(
                 screen == null
