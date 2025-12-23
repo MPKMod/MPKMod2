@@ -44,10 +44,10 @@ public class Minecraft {
     }
 
     @InfoString.Getter
-    public static long getPing() {
+    public static int getPing() {
         return Interface.get().map(Interface::getPing).orElseGet(() -> {
             API.LOGGER.info(API.COMPATIBILITY_MARKER, "Failed to get Ping, are you playing on an unsupported minecraft version?");
-            return -1L;
+            return -1;
         });
     }
 
@@ -150,7 +150,7 @@ public class Minecraft {
 
         String getFPS();
 
-        long getPing();
+        int getPing();
 
         void displayGuiScreen(MPKGuiScreen screen);
 

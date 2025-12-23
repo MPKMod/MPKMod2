@@ -16,11 +16,13 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -304,8 +306,9 @@ public class FunctionCompatibility implements FunctionHolder,
         return String.valueOf(net.minecraft.client.Minecraft.getInstance().getFps());
     }
 
-    public long getPing() {
-        return net.minecraft.client.Minecraft.getInstance().getConnection().getServerData().ping;
+    public int getPing() {
+        PlayerInfo info = net.minecraft.client.Minecraft.getInstance().getConnection().getListedOnlinePlayers().stream().filter(playerInfo -> playerInfo.getProfile().id().equals(net.minecraft.client.Minecraft.getInstance().player.getUUID())).findFirst().get();
+        return info.getLatency();
     }
 
     public void displayGuiScreen(MPKGuiScreen screen) {

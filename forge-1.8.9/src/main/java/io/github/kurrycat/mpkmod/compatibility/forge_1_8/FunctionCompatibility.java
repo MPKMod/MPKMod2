@@ -336,7 +336,7 @@ public class FunctionCompatibility implements FunctionHolder,
         return String.valueOf(Minecraft.getDebugFPS());
     }
 
-    public long getPing() {
+    public int getPing() {
         return Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
     }
 
