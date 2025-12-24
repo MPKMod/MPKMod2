@@ -336,6 +336,10 @@ public class FunctionCompatibility implements FunctionHolder,
         return String.valueOf(Minecraft.getDebugFPS());
     }
 
+    public int getPing() {
+        return Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
+    }
+
     /**
      * Is called in {@link io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.Interface Minecraft.Interface}
      */

@@ -19,6 +19,7 @@ public class Minecraft {
     public static WorldState worldState = WorldState.MENU;
     public static PlayState playState = PlayState.ACTIVE;
     public static boolean sprintToggled = false;
+    public static int ping = -1;
 
     @InfoString.Getter
     public static String getIp() {
@@ -39,6 +40,14 @@ public class Minecraft {
         return Interface.get().map(Interface::getFPS).orElseGet(() -> {
             API.LOGGER.info(API.COMPATIBILITY_MARKER, "Failed to get FPS, are you playing on an unsupported minecraft version?");
             return "Error";
+        });
+    }
+
+    @InfoString.Getter
+    public static int getPing() {
+        return Interface.get().map(Interface::getPing).orElseGet(() -> {
+            API.LOGGER.info(API.COMPATIBILITY_MARKER, "Failed to get Ping, are you playing on an unsupported minecraft version?");
+            return -1;
         });
     }
 
@@ -140,6 +149,8 @@ public class Minecraft {
         String getIP();
 
         String getFPS();
+
+        int getPing();
 
         void displayGuiScreen(MPKGuiScreen screen);
 
