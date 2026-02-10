@@ -15,7 +15,7 @@
     "sources": "https://github.com/MPKMod/MPKMod2"
   },
   "license": "MIT",
-  "icon": "assets/mpkmod/icon.png",
+  "icon": "mpkmod_logo.png",
   "environment": "client",
   "entrypoints": {
     "main": [

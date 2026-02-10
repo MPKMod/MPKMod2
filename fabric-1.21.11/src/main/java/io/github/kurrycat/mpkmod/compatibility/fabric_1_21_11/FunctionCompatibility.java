@@ -306,9 +306,12 @@ public class FunctionCompatibility implements FunctionHolder,
         return String.valueOf(net.minecraft.client.Minecraft.getInstance().getFps());
     }
 
+    public static int ping = -1;
+
     public int getPing() {
-        PlayerInfo info = net.minecraft.client.Minecraft.getInstance().getConnection().getListedOnlinePlayers().stream().filter(playerInfo -> playerInfo.getProfile().id().equals(net.minecraft.client.Minecraft.getInstance().player.getUUID())).findFirst().get();
-        return info.getLatency();
+        //PlayerInfo info = net.minecraft.client.Minecraft.getInstance().getConnection().getListedOnlinePlayers().stream().filter(playerInfo -> playerInfo.getProfile().id().equals(net.minecraft.client.Minecraft.getInstance().player.getUUID())).findFirst().get();
+        //return info.getLatency();
+        return ping;
     }
 
     public void displayGuiScreen(MPKGuiScreen screen) {

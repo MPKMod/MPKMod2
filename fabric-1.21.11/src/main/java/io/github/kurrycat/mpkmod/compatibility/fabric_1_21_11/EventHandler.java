@@ -18,12 +18,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Util;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class EventHandler {
     private static final ButtonMSList timeQueue = new ButtonMSList();
@@ -156,6 +158,11 @@ public class EventHandler {
                     .buildAndSave();
             timeQueue.clear();
         }
+
+        //TODO: Dirty fix for getting the player ping in the right thread
+        Minecraft.getInstance().getConnection().getListedOnlinePlayers().stream()
+                .filter(playerInfo -> playerInfo.getProfile().id().equals(Minecraft.getInstance().player.getUUID()))
+                .findFirst().ifPresent(playerInfo -> FunctionCompatibility.ping = playerInfo.getLatency());
 
         API.Events.onTickEnd();
     }
