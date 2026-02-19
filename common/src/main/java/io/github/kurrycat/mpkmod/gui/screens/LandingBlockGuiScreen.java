@@ -5,8 +5,8 @@ import io.github.kurrycat.mpkmod.compatibility.MCClasses.Player;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.WorldInteraction;
 import io.github.kurrycat.mpkmod.gui.ComponentScreen;
-import io.github.kurrycat.mpkmod.gui.components.Button;
 import io.github.kurrycat.mpkmod.gui.components.*;
+import io.github.kurrycat.mpkmod.gui.components.Button;
 import io.github.kurrycat.mpkmod.gui.interfaces.KeyInputListener;
 import io.github.kurrycat.mpkmod.gui.interfaces.MouseInputListener;
 import io.github.kurrycat.mpkmod.landingblock.LandingBlock;
@@ -22,6 +22,7 @@ public class LandingBlockGuiScreen extends ComponentScreen {
     public static Color lbListColorBg = new Color(31, 31, 31, 150);
 
     private LBList lbList;
+    private DeletePane deletePane;
 
     public static List<Vector3D> calculateLBOffsets() {
         List<Vector3D> returnOffsets = new ArrayList<>();
@@ -49,6 +50,15 @@ public class LandingBlockGuiScreen extends ComponentScreen {
         addChild(lbList, PERCENT.ALL, Anchor.TOP_CENTER);
         lbList.topCover.addChild(
                 new Button(
+                        "Delete All",
+                        new Vector2D(20, 1),
+                        new Vector2D(50, 11),
+                        mouseButton -> this.openPane(deletePane)
+                ),
+                PERCENT.NONE, Anchor.CENTER_RIGHT
+        );
+        lbList.topCover.addChild(
+                new Button(
                         "x",
                         new Vector2D(5, 1),
                         new Vector2D(11, 11),
@@ -56,6 +66,9 @@ public class LandingBlockGuiScreen extends ComponentScreen {
                 ),
                 PERCENT.NONE, Anchor.CENTER_RIGHT
         );
+
+        deletePane = new DeletePane();
+        passPositionTo(deletePane, PERCENT.ALL, Anchor.CENTER);
     }
 
     @Override
@@ -260,6 +273,59 @@ public class LandingBlockGuiScreen extends ComponentScreen {
             return !collapsed && ItrUtil.orMapAll(
                     ItrUtil.getAllOfType(KeyInputListener.class, minX, minY, minZ, maxX, maxY, maxZ),
                     ele -> ele.handleKeyInput(keyCode, scanCode, modifiers, isCharTyped)
+            );
+        }
+    }
+
+    public static class DeletePane extends Pane<LandingBlockGuiScreen> {
+
+        public DeletePane() {
+            super(Vector2D.ZERO, new Vector2D(0.4, 0.4));
+
+            addChild(
+                    new TextRectangle(
+                            new Vector2D(0, 10),
+                            new Vector2D(100, 40),
+                            "Are you sure you want to",
+                            null,
+                            Color.WHITE
+                    ),
+                    PERCENT.NONE, Anchor.TOP_CENTER
+            );
+
+            addChild(
+                    new TextRectangle(
+                            new Vector2D(0, 20),
+                            new Vector2D(100, 40),
+                            "delete all landing blocks?",
+                            null,
+                            Color.WHITE
+                    ),
+                    PERCENT.NONE, Anchor.TOP_CENTER
+            );
+
+            addChild(
+                    new Button(
+                            "Cancel",
+                            new Vector2D(20, 10),
+                            new Vector2D(60, 17),
+                            mouseButton -> this.close()
+                    ),
+                    PERCENT.NONE, Anchor.BOTTOM_LEFT
+            );
+
+            addChild(
+                    new Button(
+                            "Confirm",
+                            new Vector2D(20, 10),
+                            new Vector2D(60, 17),
+                            mouseButton -> {
+                                this.paneHolder.lbList.items.clear();
+                                LandingBlockGuiScreen.lbs.clear();
+                                this.close();
+                            }
+                    ),
+                    PERCENT.NONE, Anchor.BOTTOM_RIGHT
             );
         }
     }
