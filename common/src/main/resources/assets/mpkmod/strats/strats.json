@@ -229,8 +229,7 @@
   },
   "markrun": {
     "format": {
-      "default": "{a}t Mark",
-      "r!=1": " Run {r}t"
+      "default": "{a}t Mark Run {r}t"
     },
     "timingEntries": [{
       "var": "a",
@@ -252,7 +251,7 @@
       "inputs": "WD",
       "groundState": "GROUNDED"
     }, {
-      "inputs": "Wd",
+      "inputs": "Wad",
       "groundState": "JUMPING"
     }],
     "symmetrical": true
