@@ -26,5 +26,5 @@ include("common")
 if (System.getenv("JITPACK") == null) {
     include("forge-1.8.9")
     include("forge-1.12.2")
-    include("fabric-1.21.11")
+    include("fabric-26.1")
 }

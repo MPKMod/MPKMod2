@@ -1,10 +1,14 @@
 plugins {
-    id 'fabric-loom' version "1.14-SNAPSHOT"
+    id 'net.fabricmc.fabric-loom' version "1.15-SNAPSHOT"
 
     id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 }
 
-loom.runs.client.runDir = "../runs/run"
+loom {
+    accessWidenerPath = file("src/main/resources/mpkmod.classtweaker")
+
+    runs.client.runDir = "../runs/run"
+}
 
 repositories {
     maven { url = "https://repo.viaversion.com" }
@@ -14,12 +18,13 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation include("net.fabricmc:fabric-loader:${project.loader_version}")
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompileOnly "com.viaversion:viafabricplus-api:4.4.0"
-    modImplementation "com.terraformersmc:modmenu:17.0.0-beta.1"
+    implementation include("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
+    //TODO
+    //modCompileOnly "com.viaversion:viafabricplus-api:4.4.0"
+    //modCompileOnly "com.terraformersmc:modmenu:18.0.0-alpha.5"
+    implementation "com.terraformersmc:modmenu:18.0.0-alpha.5"
 
     implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
 }
@@ -33,7 +38,7 @@ processResources {
 }
 
 publishMods {
-    file = remapJar.archiveFile
+    file = jar.archiveFile
     changelog = ""
     type = STABLE
     version = project.version

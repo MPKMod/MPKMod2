@@ -1,15 +1,15 @@
 package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.viaversion.viafabricplus.ViaFabricPlus;
-import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
+//import com.viaversion.viafabricplus.ViaFabricPlus;
+//import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
 import io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.network.DataCustomPayload;
 import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
@@ -53,7 +53,8 @@ public class MPKMod implements ModInitializer {
         }));
 
 
-        if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
+        //TODO: Wait for VFP unobf build
+        /*if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
 
         ViaFabricPlusBase platform = ViaFabricPlus.getImpl();
 
@@ -65,7 +66,7 @@ public class MPKMod implements ModInitializer {
                             ? null
                             : newVersionName
             );
-        });
+        });*/
     }
 
     private void registerKeybindingsFromGUIs() {
@@ -75,7 +76,7 @@ public class MPKMod implements ModInitializer {
         });
 
         API.keyBindingMap.forEach((id, consumer) -> registerKeyBinding(id));
-        keyBindingMap.forEach((id, key) -> KeyBindingHelper.registerKeyBinding(key));
+        keyBindingMap.forEach((id, key) -> KeyMappingHelper.registerKeyMapping(key));
     }
 
     public void registerKeyBinding(String id) {

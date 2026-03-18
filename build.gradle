@@ -109,11 +109,13 @@ configure(
     if (project.name != "common") {
         project.afterEvaluate {
 
-            remapJar {
-                inputFile.set project.jar.archiveFile
-                destinationDirectory = file("${rootProject.buildDir}/libs")
-                dependsOn project.jar
-                archiveFileName = project.jar.archiveFileName
+            if (!project.name.contains("26.1")) { //TODO: Make this more robust
+                remapJar {
+                    inputFile.set project.jar.archiveFile
+                    destinationDirectory = file("${rootProject.buildDir}/libs")
+                    dependsOn project.jar
+                    archiveFileName = project.jar.archiveFileName
+                }
             }
 
             // Fix unimined runs bug

@@ -15,18 +15,18 @@ import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Options;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
-import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -53,7 +53,7 @@ public class FunctionCompatibility implements FunctionHolder,
         Keyboard.Interface,
         Profiler.Interface {
     public static final Set<Integer> pressedButtons = new HashSet<>();
-    public GuiGraphics drawContext = null;
+    public GuiGraphicsExtractor drawContext = null;
 
     public void playButtonSound() {
         net.minecraft.client.Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
@@ -107,8 +107,8 @@ public class FunctionCompatibility implements FunctionHolder,
 
         BlockPos blockpos = new BlockPos(blockPos.getXI(), blockPos.getYI(), blockPos.getZI());
         BlockState blockState = net.minecraft.client.Minecraft.getInstance().level.getBlockState(blockpos);
-        blockState.getValues().forEach((key, value) ->
-                properties.put(key.getName(), Util.getPropertyName(key, value))
+        blockState.getValues().forEach(value ->
+                properties.put(value.valueName(), Util.getPropertyName(value.property(), value)) //TODO: Check this
         );
         return null;
     }
@@ -223,7 +223,7 @@ public class FunctionCompatibility implements FunctionHolder,
         var window = net.minecraft.client.Minecraft.getInstance().getWindow();
         var bounds = new ScreenRectangle(0, 0, window.getGuiScaledWidth(), window.getGuiScaledHeight());
 
-        drawContext.guiRenderState.submitGuiElement(new PointsRenderState(
+        drawContext.guiRenderState.addGuiElement(new PointsRenderState(
                 points,
                 r, g, b, a,
                 PictureInPictureRenderState.getBounds(bounds.left(), bounds.top(), bounds.right(), bounds.bottom(), drawContext.scissorStack.peek()),
@@ -278,7 +278,7 @@ public class FunctionCompatibility implements FunctionHolder,
         matrixStack.translate((float) x, (float) y);
         double scale = fontSize / net.minecraft.client.Minecraft.getInstance().font.lineHeight;
         matrixStack.scale((float) scale, (float) scale);
-        drawContext.drawString(
+        drawContext.text(
                 net.minecraft.client.Minecraft.getInstance().font, text,
                 0, 0, color.getRGB(), shadow
         );

@@ -4,8 +4,7 @@ import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Profiler;
 import io.github.kurrycat.mpkmod.util.MathUtil;
 import io.github.kurrycat.mpkmod.util.Vector2D;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.client.input.KeyEvent;
@@ -32,7 +31,7 @@ public class MPKGuiScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
+    public void extractBackground(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
         drawContext.pose().pushMatrix();
         API.<FunctionCompatibility>getFunctionHolder().drawContext = drawContext;
         Profiler.startSection(eventReceiver.getID() == null ? "mpk_gui" : eventReceiver.getID());
@@ -82,7 +81,7 @@ public class MPKGuiScreen extends Screen {
 
     @Override
     public boolean charTyped(CharacterEvent input) {
-        eventReceiver.onKeyEvent(input.codepoint(), 0, input.modifiers(), true);
+        eventReceiver.onKeyEvent(input.codepoint(), 0, 0, true);
         return super.charTyped(input);
     }
 

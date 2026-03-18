@@ -14,11 +14,10 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Util;
 import net.minecraft.world.phys.AABB;
@@ -114,7 +113,7 @@ public class EventHandler {
         }
     }
 
-    public void onInGameOverlayRender(GuiGraphics drawContext, DeltaTracker renderTickCounter) {
+    public void onInGameOverlayRender(GuiGraphicsExtractor drawContext, DeltaTracker renderTickCounter) {
         drawContext.pose().pushMatrix();
         API.<FunctionCompatibility>getFunctionHolder().drawContext = drawContext;
         API.Events.onRenderOverlay();

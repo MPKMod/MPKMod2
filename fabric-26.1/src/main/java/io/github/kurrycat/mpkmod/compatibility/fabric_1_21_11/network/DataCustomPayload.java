@@ -25,12 +25,12 @@ public record DataCustomPayload(byte[] data) implements CustomPacketPayload {
     }
 
     public static Type<DataCustomPayload> registerClientboundPayload() {
-        PayloadTypeRegistry.playS2C().register(MPK_ID, DataCustomPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(MPK_ID, DataCustomPayload.CODEC);
         return MPK_ID;
     }
 
     public static Type<DataCustomPayload> registerServerboundPayload() {
-        PayloadTypeRegistry.playC2S().register(MPK_ID, DataCustomPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(MPK_ID, DataCustomPayload.CODEC);
         return MPK_ID;
     }
 }
