@@ -41,17 +41,19 @@ public class Serializer {
         mapper.configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
     }
 
-    public static <T> void serialize(File configFile, T value) {
+    public static <T> void serialize(File configFile, T value, Class<T> c) {
         try {
-            mapper.writeValue(configFile, value);
+            mapper.writerFor(c)
+                    .writeValue(configFile, value);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static String serializeAsString(Object value) {
+    public static <T> String serializeAsString(T value, Class<T> c) {
         try {
-            return mapper.writeValueAsString(value);
+            return mapper.writerFor(c)
+                    .writeValueAsString(value);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

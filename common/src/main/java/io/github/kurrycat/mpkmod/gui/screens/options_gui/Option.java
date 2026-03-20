@@ -216,7 +216,7 @@ public class Option {
         for (String key : API.optionsMap.keySet()) {
             options.put(key, API.optionsMap.get(key).getValue());
         }
-        Serializer.serialize(JSONConfig.optionsFile, options);
+        Serializer.serialize(JSONConfig.optionsFile, options, HashMap.class);
     }
 
     public String getDisplayName() {

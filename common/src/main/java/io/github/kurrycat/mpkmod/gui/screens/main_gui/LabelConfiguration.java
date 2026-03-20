@@ -81,7 +81,7 @@ public class LabelConfiguration implements Copyable<LabelConfiguration> {
     public LabelConfiguration copy() {
         if (components.isEmpty()) return new LabelConfiguration();
 
-        String components = Serializer.serializeAsString(this.components);
+        String components = Serializer.serializeAsString(getComponentArray(), Component[].class);
         Component[] copy = Serializer.deserializeString(components, Component[].class);
         if (copy == null) return new LabelConfiguration();
 
@@ -120,7 +120,7 @@ public class LabelConfiguration implements Copyable<LabelConfiguration> {
         File file = new File(savedConfigsFolderName + name + ".json");
         try {
             if (!file.createNewFile()) return false;
-            Serializer.serialize(file, components);
+            Serializer.serialize(file, getComponentArray(), Component[].class);
             savedConfigs.put(name, copy());
             return true;
         } catch (IOException e) {
@@ -129,7 +129,11 @@ public class LabelConfiguration implements Copyable<LabelConfiguration> {
     }
 
     public void saveInCustom() {
-        Serializer.serialize(customConfigurationFile, components);
+        Serializer.serialize(customConfigurationFile, getComponentArray(), Component[].class);
+    }
+
+    private Component[] getComponentArray() {
+        return components.toArray(new Component[0]);
     }
 
     @Override
