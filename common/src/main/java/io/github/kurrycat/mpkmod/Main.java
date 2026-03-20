@@ -118,8 +118,8 @@ public class Main implements MPKModule {
                     }
                 }, Event.EventType.KEY_INPUT));
 
-        EventAPI.addListener(EventAPI.EventListener.onTickStart(e -> API.tickTime++));
-        EventAPI.addListener(EventAPI.EventListener.onTickStart(e -> {
+        EventAPI.addListener(EventAPI.EventListener.onTickEnd(e -> API.tickTime++));
+        EventAPI.addListener(EventAPI.EventListener.onTickEnd(e -> {
             TickThread.setTickables(
                     ItrUtil.getAllOfType(TickThread.Tickable.class, mainGUI.movableComponents)
             );
