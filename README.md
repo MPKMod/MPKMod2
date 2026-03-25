@@ -33,7 +33,7 @@ If you think that mpkmod should have a specific feature, encounter any bugs or i
     - 1.8.9
     - 1.12.2
 * [Fabric](https://fabricmc.net/)
-    - 1.21.9
+    - 26.1
 
 I aim to keep the mod updated for the latest version of minecraft. <br>
 To use the mod with other versions please check out the [ViaFabricPlus](https://github.com/ViaVersion/ViaFabricPlus) project.
@@ -42,7 +42,7 @@ To use the mod with other versions please check out the [ViaFabricPlus](https://
 
 ### Installation
 
-Download the version you want from [releases](https://github.com/kurrycat2004/MPKMod_2/releases). (See [snapshots](#snapshots) for how to download a snapshot version) <br>
+Download the version you want from [releases](https://github.com/MPKMod/MPKMod2/releases/). (See [snapshots](#snapshots) for how to download a snapshot version) <br>
 Then move the mod file (for example `mpkmod-2.0.0-pre.9-forge-1.8.9.jar`) into your [.minecraft](https://minecraft.wiki/w/.minecraft#Locating)/mods folder and start the game to use it. <br>
 
 ---
@@ -84,6 +84,6 @@ The landing mode is `Land` by default, which will compare the specified bounding
 > [!IMPORTANT]  
 > GitHub only displays artifacts if you are logged in.
 
-Go to [Actions](https://github.com/kurrycat2004/MPKMod_2/actions/workflows/gradle.yml?query=is%3Asuccess+branch%3Amaster),
+Go to [Actions](https://github.com/MPKMod/MPKMod2/actions/workflows/build.yml?query=is%3Asuccess+branch%3Amaster),
 click the build you want to download (first is newest) and scroll down to Artifacts.<br>
 The zip file (`mpkmod.DATE-TIME.zip`) will contain the mod jar for every supported version.
