@@ -1,7 +1,7 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.MPKMod;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeStorage;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = LevelRenderer.class)
+@Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
     @Inject(method = "submitBlockEntities", at = @At("HEAD"))
     public void render(PoseStack poseStack, LevelRenderState levelRenderState, SubmitNodeStorage submitNodeStorage, CallbackInfo ci) {

@@ -1,4 +1,4 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;

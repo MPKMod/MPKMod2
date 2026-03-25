@@ -19,10 +19,10 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-        "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.MPKMod"
+        "io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKMod"
     ],
     "modmenu": [
-      "io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.MPKModMenu"
+      "io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKModMenu"
     ]
   },
   "mixins": [
@@ -30,10 +30,10 @@
   ],
   "accessWidener" : "mpkmod.classtweaker",
   "depends": {
-    "fabricloader": ">=0.18.0",
+    "fabricloader": ">=0.18.4",
     "fabric-api": "*",
-    "minecraft": ">=1.21.11",
-    "java": ">=21"
+    "minecraft": ">=26.1",
+    "java": ">=25"
   },
   "suggests": {}
 }

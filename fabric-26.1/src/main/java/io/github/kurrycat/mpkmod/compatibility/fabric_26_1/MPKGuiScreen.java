@@ -1,4 +1,4 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_1;
 
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Profiler;

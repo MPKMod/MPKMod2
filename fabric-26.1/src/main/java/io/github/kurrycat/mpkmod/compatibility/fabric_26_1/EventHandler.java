@@ -1,10 +1,10 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_1;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Player;
-import io.github.kurrycat.mpkmod.compatibility.fabric_1_21_11.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin.KeyMappingAccessor;
 import io.github.kurrycat.mpkmod.ticks.ButtonMS;
 import io.github.kurrycat.mpkmod.ticks.ButtonMSList;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
@@ -24,7 +24,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
-import java.util.Optional;
 
 public class EventHandler {
     private static final ButtonMSList timeQueue = new ButtonMSList();
