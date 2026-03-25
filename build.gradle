@@ -109,12 +109,21 @@ configure(
     if (project.name != "common") {
         project.afterEvaluate {
 
-            if (!project.name.contains("26.1")) { //TODO: Make this more robust
+            if (project.tasks.findByName('remapJar')) {
                 remapJar {
                     inputFile.set project.jar.archiveFile
                     destinationDirectory = file("${rootProject.buildDir}/libs")
                     dependsOn project.jar
                     archiveFileName = project.jar.archiveFileName
+                }
+            } else {
+                jar {
+                    doLast {
+                        copy {
+                            from archiveFile.get().asFile
+                            into "${rootProject.buildDir}/libs"
+                        }
+                    }
                 }
             }
 
