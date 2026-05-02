@@ -91,7 +91,7 @@ public class MPKMod {
             new io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding(
                     () -> GameSettings.getKeyDisplayString(k.getKeyCode()),
                     k.getKeyDescription(),
-                    k::isKeyDown
+                    () -> GameSettings.isKeyDown(k)
             );
         }
         API.LOGGER.info(API.COMPATIBILITY_MARKER, "Registered {} Keybindings",
