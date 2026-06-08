@@ -49,6 +49,13 @@ public class Main implements MPKModule {
     )
     public static boolean highlightLandingBlocks = true;
 
+    @Option.Field(
+            category = "debug",
+            displayName = "Copy Position Shortcut",
+            description = "Whether to override the vanilla F3+C shortcut to copy your precise position"
+    )
+    public static boolean copyPositionShortcutEnabled = true;
+
     @Override
     public void init() {
         infoTree = InfoString.createInfoTree();
@@ -105,6 +112,8 @@ public class Main implements MPKModule {
                                 ModuleManager.reloadAllModules();
                             }
                         } else if (event.keyCode == InputConstants.KEY_C) {
+                            if (!copyPositionShortcutEnabled) return;
+
                             if (Player.getLatest() == null) return;
                             Player p = Player.getLatest();
                             Minecraft.copyToClipboard(
