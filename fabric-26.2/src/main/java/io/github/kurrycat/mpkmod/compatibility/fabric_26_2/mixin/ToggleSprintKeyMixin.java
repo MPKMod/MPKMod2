@@ -1,4 +1,4 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin;
 
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft;
 import net.minecraft.client.KeyMapping;

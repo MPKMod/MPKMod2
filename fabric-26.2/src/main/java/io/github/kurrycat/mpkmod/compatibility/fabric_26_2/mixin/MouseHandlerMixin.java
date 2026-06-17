@@ -1,6 +1,6 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin;
 
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKMod;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.input.MouseButtonInfo;

@@ -1,10 +1,10 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_1;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Player;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin.KeyMappingAccessor;
 import io.github.kurrycat.mpkmod.ticks.ButtonMS;
 import io.github.kurrycat.mpkmod.ticks.ButtonMSList;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;

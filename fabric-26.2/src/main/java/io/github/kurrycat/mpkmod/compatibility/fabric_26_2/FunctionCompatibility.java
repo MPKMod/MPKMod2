@@ -1,11 +1,10 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_1;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.*;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.mixin.KeyMappingAccessor;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.network.DataCustomPayload;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
 import io.github.kurrycat.mpkmod.gui.MPKGuiScreen;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
 import io.github.kurrycat.mpkmod.util.Debug;
@@ -22,8 +21,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.SubmitNodeStorage;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -39,8 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -267,7 +262,7 @@ public class FunctionCompatibility implements FunctionHolder,
         net.minecraft.client.Minecraft.getInstance().gui.setScreen(
                 screen == null
                         ? null
-                        : new io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKGuiScreen(screen));
+                        : new io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen(screen));
     }
 
     public String getCurrentGuiScreen() {
@@ -275,8 +270,8 @@ public class FunctionCompatibility implements FunctionHolder,
 
         if (curr == null)
             return null;
-        else if (curr instanceof io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKGuiScreen) {
-            String id = ((io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKGuiScreen) curr).eventReceiver.getID();
+        else if (curr instanceof io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen) {
+            String id = ((io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen) curr).eventReceiver.getID();
             if (id == null)
                 id = "unknown";
 

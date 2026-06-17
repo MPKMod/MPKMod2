@@ -1,11 +1,11 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_1;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.viaversion.viafabricplus.ViaFabricPlus;
 import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_1.network.DataCustomPayload;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
 import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
