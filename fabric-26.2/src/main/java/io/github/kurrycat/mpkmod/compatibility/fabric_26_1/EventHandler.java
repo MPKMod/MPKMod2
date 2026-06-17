@@ -99,7 +99,7 @@ public class EventHandler {
     }
 
     private void checkKeyBinding(int keyCode) {
-        if (Minecraft.getInstance().screen != null) return;
+        if (Minecraft.getInstance().gui.screen() != null) return;
 
         for (Map.Entry<String, KeyMapping> keyBindingEntry : MPKMod.keyBindingMap.entrySet()) {
             InputConstants.Key boundKey = ((KeyMappingAccessor) keyBindingEntry.getValue()).getKey();
@@ -122,7 +122,7 @@ public class EventHandler {
     public void onRenderWorldOverlay(PoseStack matrixStack, float tickDelta) {
         MPKMod.INSTANCE.matrixStack = matrixStack;
         matrixStack.pushPose();
-        Vec3 pos = Minecraft.getInstance().gameRenderer.getMainCamera().position().reverse();
+        Vec3 pos = Minecraft.getInstance().gameRenderer.mainCamera().position().reverse();
         MPKMod.INSTANCE.matrixStack.translate(pos);
         API.Events.onRenderWorldOverlay(tickDelta);
         matrixStack.popPose();

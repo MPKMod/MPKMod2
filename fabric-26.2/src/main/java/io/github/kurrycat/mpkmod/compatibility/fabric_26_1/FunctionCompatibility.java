@@ -22,16 +22,21 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.SubmitNodeStorage;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -128,71 +133,17 @@ public class FunctionCompatibility implements FunctionHolder,
     }
 
     public void drawBox(BoundingBox3D bb, Color color, float partialTicks) {
-        var ms = MPKMod.INSTANCE.matrixStack;
-        ms.pushPose();
-        ms.translate((float) bb.minX(), (float) bb.minY(), (float) bb.minZ());
 
-        VoxelShape shape = Shapes.box(
-                0.0, 0.0, 0.0,
-                bb.maxX() - bb.minX(),
-                bb.maxY() - bb.minY(),
-                bb.maxZ() - bb.minZ()
+        AABB shape = new AABB(
+                bb.minX(),
+                bb.minY(),
+                bb.minZ(),
+                bb.maxX(),
+                bb.maxY(),
+                bb.maxZ()
         );
 
-        VertexConsumer buf = net.minecraft.client.Minecraft.getInstance()
-                .renderBuffers().bufferSource().getBuffer(RenderTypes.debugFilledBox());
-
-        renderFilled(ms, buf, shape, 0, 0, 0, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
-        ms.popPose();
-    }
-
-    public static void renderFilled(PoseStack poseStack, VertexConsumer vertexConsumer, VoxelShape voxelShape, double x, double y, double z, float r, float g, float b, float a) {
-        PoseStack.Pose pose = poseStack.last();
-        voxelShape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            float x1 = (float)(minX + x);
-            float y1 = (float)(minY + y);
-            float z1 = (float)(minZ + z);
-            float x2 = (float)(maxX + x);
-            float y2 = (float)(maxY + y);
-            float z2 = (float)(maxZ + z);
-
-            // Draw all 6 faces of the box
-            // Down
-            vertexConsumer.addVertex(pose, x1, y1, z1).setColor(r, g, b, a).setNormal(pose, 0, -1, 0);
-            vertexConsumer.addVertex(pose, x2, y1, z1).setColor(r, g, b, a).setNormal(pose, 0, -1, 0);
-            vertexConsumer.addVertex(pose, x2, y1, z2).setColor(r, g, b, a).setNormal(pose, 0, -1, 0);
-            vertexConsumer.addVertex(pose, x1, y1, z2).setColor(r, g, b, a).setNormal(pose, 0, -1, 0);
-
-            // Up
-            vertexConsumer.addVertex(pose, x1, y2, z2).setColor(r, g, b, a).setNormal(pose, 0, 1, 0);
-            vertexConsumer.addVertex(pose, x2, y2, z2).setColor(r, g, b, a).setNormal(pose, 0, 1, 0);
-            vertexConsumer.addVertex(pose, x2, y2, z1).setColor(r, g, b, a).setNormal(pose, 0, 1, 0);
-            vertexConsumer.addVertex(pose, x1, y2, z1).setColor(r, g, b, a).setNormal(pose, 0, 1, 0);
-
-            // North
-            vertexConsumer.addVertex(pose, x1, y1, z1).setColor(r, g, b, a).setNormal(pose, 0, 0, -1);
-            vertexConsumer.addVertex(pose, x1, y2, z1).setColor(r, g, b, a).setNormal(pose, 0, 0, -1);
-            vertexConsumer.addVertex(pose, x2, y2, z1).setColor(r, g, b, a).setNormal(pose, 0, 0, -1);
-            vertexConsumer.addVertex(pose, x2, y1, z1).setColor(r, g, b, a).setNormal(pose, 0, 0, -1);
-
-            // South
-            vertexConsumer.addVertex(pose, x2, y1, z2).setColor(r, g, b, a).setNormal(pose, 0, 0, 1);
-            vertexConsumer.addVertex(pose, x2, y2, z2).setColor(r, g, b, a).setNormal(pose, 0, 0, 1);
-            vertexConsumer.addVertex(pose, x1, y2, z2).setColor(r, g, b, a).setNormal(pose, 0, 0, 1);
-            vertexConsumer.addVertex(pose, x1, y1, z2).setColor(r, g, b, a).setNormal(pose, 0, 0, 1);
-
-            // West
-            vertexConsumer.addVertex(pose, x1, y1, z2).setColor(r, g, b, a).setNormal(pose, -1, 0, 0);
-            vertexConsumer.addVertex(pose, x1, y2, z2).setColor(r, g, b, a).setNormal(pose, -1, 0, 0);
-            vertexConsumer.addVertex(pose, x1, y2, z1).setColor(r, g, b, a).setNormal(pose, -1, 0, 0);
-            vertexConsumer.addVertex(pose, x1, y1, z1).setColor(r, g, b, a).setNormal(pose, -1, 0, 0);
-
-            // East
-            vertexConsumer.addVertex(pose, x2, y1, z1).setColor(r, g, b, a).setNormal(pose, 1, 0, 0);
-            vertexConsumer.addVertex(pose, x2, y2, z1).setColor(r, g, b, a).setNormal(pose, 1, 0, 0);
-            vertexConsumer.addVertex(pose, x2, y2, z2).setColor(r, g, b, a).setNormal(pose, 1, 0, 0);
-            vertexConsumer.addVertex(pose, x2, y1, z2).setColor(r, g, b, a).setNormal(pose, 1, 0, 0);
-        });
+        Gizmos.cuboid(shape, GizmoStyle.fill(ARGB.color(0.7f, color.getRGB())));
     }
 
 
@@ -313,14 +264,14 @@ public class FunctionCompatibility implements FunctionHolder,
     }
 
     public void displayGuiScreen(MPKGuiScreen screen) {
-        net.minecraft.client.Minecraft.getInstance().setScreen(
+        net.minecraft.client.Minecraft.getInstance().gui.setScreen(
                 screen == null
                         ? null
                         : new io.github.kurrycat.mpkmod.compatibility.fabric_26_1.MPKGuiScreen(screen));
     }
 
     public String getCurrentGuiScreen() {
-        Screen curr = net.minecraft.client.Minecraft.getInstance().screen;
+        Screen curr = net.minecraft.client.Minecraft.getInstance().gui.screen();
 
         if (curr == null)
             return null;
