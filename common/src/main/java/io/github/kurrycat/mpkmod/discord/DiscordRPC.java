@@ -68,6 +68,7 @@ public class DiscordRPC {
             }
             disableRPC();
         }, API.MODID + " Discord RPC Callback Handler");
+        t.setDaemon(true);
         t.start();
     }
 
