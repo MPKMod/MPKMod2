@@ -66,15 +66,15 @@ public class API {
         JSONConfig.setupFiles();
         Serializer.registerSerializer();
 
-        Settings.init();
-        Settings.loadSettings();
-
         MPKModule mainModule = new Main();
         ModuleManager.moduleMap.put("main", new MPKModuleImpl("main", mainModule, null));
         mainModule.init();
 
         ModuleFinder.init();
         ModuleManager.initAllModules();
+
+        Settings.init();
+        Settings.loadSettings();
     }
 
     /**

@@ -42,7 +42,7 @@ public class Settings {
     public static BooleanSetting discordRPCEnabled = new BooleanSetting(
             "discordRPCEnabled",
             "Discord Rich Presence",
-            "\"Show \\\"Playing MPKMod\\\" in Discord\"",
+            "Show \"Playing MPKMod\" in Discord",
             true
     );
 
@@ -56,13 +56,12 @@ public class Settings {
         for (Field field : Settings.class.getDeclaredFields()) {
             if (Setting.class.isAssignableFrom(field.getType())) {
                 try {
-                    SETTINGS_LIST.add((Setting) field.get(null));
+                    registerSetting((Setting) field.get(null));
                 } catch (IllegalAccessException ignored) {}
             }
         }
     }
 
-    // For modules
     public static void registerSetting(Setting setting) {
         SETTINGS_LIST.add(setting);
     }
