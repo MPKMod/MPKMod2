@@ -13,11 +13,11 @@ import io.github.kurrycat.mpkmod.gui.infovars.InfoTree;
 import io.github.kurrycat.mpkmod.gui.screens.LandingBlockGuiScreen;
 import io.github.kurrycat.mpkmod.gui.screens.main_gui.LabelConfiguration;
 import io.github.kurrycat.mpkmod.gui.screens.main_gui.MainGuiScreen;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
 import io.github.kurrycat.mpkmod.gui.screens.options_gui.OptionsGuiScreen;
 import io.github.kurrycat.mpkmod.landingblock.LandingBlock;
 import io.github.kurrycat.mpkmod.modules.MPKModule;
 import io.github.kurrycat.mpkmod.modules.ModuleManager;
+import io.github.kurrycat.mpkmod.settings.Settings;
 import io.github.kurrycat.mpkmod.ticks.TimingStorage;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
 import io.github.kurrycat.mpkmod.util.ItrUtil;
@@ -34,27 +34,6 @@ public class Main implements MPKModule {
     public static List<Vector2D> mouseMovements = new ArrayList<>();
     public static MainGuiScreen mainGUI;
     public static InfoTree infoTree;
-
-    @Option.Field(
-            category = "labels",
-            displayName = "Display Overlay",
-            description = "Whether to show all the components on the overlay while playing"
-    )
-    public static boolean displayOverlay = true;
-
-    @Option.Field(
-            category = "landingblocks",
-            displayName = "Highlight Landing Blocks",
-            description = "Whether to highlight all enabled landing blocks"
-    )
-    public static boolean highlightLandingBlocks = true;
-
-    @Option.Field(
-            category = "debug",
-            displayName = "Copy Position Shortcut",
-            description = "Whether to override the vanilla F3+C shortcut to copy your precise position"
-    )
-    public static boolean copyPositionShortcutEnabled = true;
 
     @Override
     public void init() {
@@ -112,7 +91,7 @@ public class Main implements MPKModule {
                                 ModuleManager.reloadAllModules();
                             }
                         } else if (event.keyCode == InputConstants.KEY_C) {
-                            if (!copyPositionShortcutEnabled) return;
+                            if (!Settings.copyPositionShortcutEnabled.getValue()) return;
 
                             if (Player.getLatest() == null) return;
                             Player p = Player.getLatest();
@@ -144,7 +123,7 @@ public class Main implements MPKModule {
         EventAPI.addListener(
                 EventAPI.EventListener.onRenderOverlay(
                         e -> {
-                            if (!displayOverlay) return;
+                            if (!Settings.displayOverlay.getValue()) return;
                             if (Minecraft.isF3Enabled()) return;
 
                             Profiler.startSection("components");
@@ -164,7 +143,7 @@ public class Main implements MPKModule {
         EventAPI.addListener(
                 new EventAPI.EventListener<OnRenderWorldOverlayEvent>(
                         e -> {
-                            if (!highlightLandingBlocks) return;
+                            if (!Settings.highlightLandingBlocks.getValue()) return;
 
                             Profiler.startSection("renderLBOverlays");
                             LandingBlockGuiScreen.lbs.forEach(lb -> {

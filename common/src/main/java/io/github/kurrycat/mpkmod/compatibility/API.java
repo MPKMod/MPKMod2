@@ -6,13 +6,13 @@ import io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft;
 import io.github.kurrycat.mpkmod.discord.DiscordRPC;
 import io.github.kurrycat.mpkmod.events.*;
 import io.github.kurrycat.mpkmod.gui.MPKGuiScreen;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
 import io.github.kurrycat.mpkmod.modules.MPKModule;
 import io.github.kurrycat.mpkmod.modules.MPKModuleImpl;
 import io.github.kurrycat.mpkmod.modules.ModuleFinder;
 import io.github.kurrycat.mpkmod.modules.ModuleManager;
 import io.github.kurrycat.mpkmod.network.impl.MPKPacketListenerClientImpl;
 import io.github.kurrycat.mpkmod.save.Serializer;
+import io.github.kurrycat.mpkmod.settings.Settings;
 import io.github.kurrycat.mpkmod.util.ClassUtil;
 import io.github.kurrycat.mpkmod.util.JSONConfig;
 import io.github.kurrycat.mpkmod.util.Mouse;
@@ -50,11 +50,7 @@ public class API {
     public static Map<String, MPKGuiScreen> guiScreenMap = new HashMap<>();
     public static Map<String, Procedure> keyBindingMap = new HashMap<>();
 
-    public static HashMap<String, Option> optionsMap;
     private static FunctionHolder functionHolder;
-
-    /*@Option.Field
-    public static String testOption = "String Option";*/
 
     /*public static int metronome = 0;*/
 
@@ -70,8 +66,8 @@ public class API {
         JSONConfig.setupFiles();
         Serializer.registerSerializer();
 
-        optionsMap = Option.createOptionMap();
-        Option.updateOptionMapFromJSON(true);
+        Settings.init();
+        Settings.loadSettings();
 
         MPKModule mainModule = new Main();
         ModuleManager.moduleMap.put("main", new MPKModuleImpl("main", mainModule, null));
