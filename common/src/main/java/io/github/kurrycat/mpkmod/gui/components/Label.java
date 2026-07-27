@@ -3,13 +3,13 @@ package io.github.kurrycat.mpkmod.gui.components;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.FontRenderer;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 
 import java.awt.*;
 
 public class Label extends Component {
-    @Option.Field(showInOptionList = false)
+
+    // TODO: Setting?
     public static double DEFAULT_FONT_SIZE = FontRenderer.DEFAULT_FONT_SIZE;
 
     @JsonProperty
