@@ -99,7 +99,7 @@ public class Player {
     }
 
     public Player constructKeyInput() {
-        keyInput = KeyInput.construct();
+        keyInput = Minecraft.getKeyInput();
         return this;
     }
 
@@ -511,9 +511,7 @@ public class Player {
         public boolean sneak = false;
         public boolean jump = false;
 
-        public KeyInput() {
-
-        }
+        public KeyInput() {}
 
         public KeyInput(boolean forward, boolean left, boolean back, boolean right, boolean sprint, boolean sneak, boolean jump) {
             this.forward = forward;
@@ -523,19 +521,6 @@ public class Player {
             this.sprint = sprint;
             this.sneak = sneak;
             this.jump = jump;
-        }
-
-        public static KeyInput construct() {
-            KeyInput k = new KeyInput();
-            for (Field f : KeyInput.class.getDeclaredFields()) {
-                KeyBinding b = KeyBinding.getByName("key." + f.getName());
-                if (b == null) continue;
-                try {
-                    f.set(k, b.isKeyDown());
-                } catch (IllegalAccessException ignored) {
-                }
-            }
-            return k;
         }
 
         public String toString() {

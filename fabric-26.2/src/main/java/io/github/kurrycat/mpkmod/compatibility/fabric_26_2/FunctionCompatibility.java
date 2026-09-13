@@ -32,6 +32,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -371,6 +373,35 @@ public class FunctionCompatibility implements FunctionHolder,
 
     public void endSection() {
         net.minecraft.util.profiling.Profiler.get().pop();
+    }
+
+    @Override
+    public Player.KeyInput getKeyInput() {
+        Entity cameraEntity = net.minecraft.client.Minecraft.getInstance().getCameraEntity();
+        if (!(cameraEntity instanceof LivingEntity le)) return new Player.KeyInput();
+
+        boolean w, a, s, d, sprint, sneak, jump;
+        if (cameraEntity instanceof LocalPlayer lp) {
+            w = lp.input.keyPresses.forward();
+            a = lp.input.keyPresses.left();
+            s = lp.input.keyPresses.backward();
+            d = lp.input.keyPresses.right();
+
+            sprint = lp.input.keyPresses.sprint();
+            sneak = lp.input.keyPresses.shift();
+            jump = lp.input.keyPresses.jump();
+        } else {
+            w = le.zza > 0;
+            a = le.xxa > 0;
+            s = le.zza < 0;
+            d = le.xxa < 0;
+
+            sprint = le.isSprinting();
+            sneak = le.isShiftKeyDown();
+            jump = le.isJumping();
+        }
+
+        return new Player.KeyInput(w, a, s, d, sprint, sneak, jump);
     }
 
     private record PointsRenderState(
