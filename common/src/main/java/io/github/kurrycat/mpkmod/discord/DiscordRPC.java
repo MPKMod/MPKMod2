@@ -7,7 +7,7 @@ import de.jcm.discordgamesdk.activity.Activity;
 import io.github.kurrycat.mpkmod.Main;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
+import io.github.kurrycat.mpkmod.settings.Settings;
 
 import java.io.File;
 
@@ -15,13 +15,6 @@ public class DiscordRPC {
     public static final long CLIENT_ID = 773933401296076800L;
     public static Core core = null;
     public static boolean LIBRARY_LOADED = false;
-
-    @Option.Field(
-            category = "discord",
-            displayName = "Discord Rich Presence",
-            description = "Show \"Playing MPKMod\" in Discord"
-    )
-    public static boolean discordRPCEnabled = true;
 
     public static void init() {
         new Thread(DiscordRPC::_init).start();
@@ -38,20 +31,20 @@ public class DiscordRPC {
         API.LOGGER.info(API.DISCORD_RPC_MARKER, "DiscordRPC Core initialized.");
         LIBRARY_LOADED = true;
 
+        Settings.discordRPCEnabled.onChange(setting -> onEnabledStatusChanged());
         onEnabledStatusChanged();
 
         startCallbackThread();
         API.LOGGER.info(API.DISCORD_RPC_MARKER, "Started DiscordRPC callback thread");
     }
 
-    @Option.ChangeListener(field = "discordRPCEnabled")
     public static void onEnabledStatusChanged() {
         if (!LIBRARY_LOADED) {
             API.LOGGER.info(API.DISCORD_RPC_MARKER, "DiscordRPC library not loaded correctly, unable to update rich presence");
             return;
         }
 
-        if (discordRPCEnabled) enableRPC();
+        if (Settings.discordRPCEnabled.getValue()) enableRPC();
         else disableRPC();
     }
 
@@ -125,7 +118,7 @@ public class DiscordRPC {
     private static void updateActivity(String details, String state) {
         if (!LIBRARY_LOADED) return;
         if (!Main.discordRpcInitialized) return;
-        if (!discordRPCEnabled) return;
+        if (!Settings.discordRPCEnabled.getValue()) return;
 
         try (Activity activity = new Activity()) {
             activity.setDetails(details);

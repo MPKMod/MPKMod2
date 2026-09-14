@@ -4,6 +4,7 @@ import io.github.kurrycat.mpkmod.compatibility.MCClasses.FontRenderer;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
 import io.github.kurrycat.mpkmod.gui.components.Button;
 import io.github.kurrycat.mpkmod.gui.components.*;
+import io.github.kurrycat.mpkmod.settings.Setting;
 import io.github.kurrycat.mpkmod.util.Mouse;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 
@@ -13,17 +14,13 @@ public abstract class OptionListItem extends ScrollableListItem<OptionListItem> 
     private static final Color optionListColorItemEdge = new Color(255, 255, 255, 95);
     private static final Color optionListColorBg = new Color(31, 31, 31, 150);
     private final Button resetButton;
-    public Option option;
-    protected String value;
-    protected Option.ValueType type;
     protected Div hoverText;
     protected TextRectangle helpHover;
+    protected Setting option;
 
-    public OptionListItem(ScrollableList<OptionListItem> parent, Option option) {
+    public OptionListItem(ScrollableList<OptionListItem> parent, Setting option) {
         super(parent);
         this.option = option;
-        this.value = option.getValue();
-        this.type = option.getType();
 
         resetButton = new Button("Reset", new Vector2D(15, 0), new Vector2D(30, 11), mouseButton -> {
             if (mouseButton == Mouse.Button.LEFT) {
@@ -49,16 +46,13 @@ public abstract class OptionListItem extends ScrollableListItem<OptionListItem> 
         hoverText.setMaxWidth(0.5);
     }
 
-    public void loadDefaultValue() {
-        value = option.getDefaultValue();
-        updateDisplayValue();
-    }
+    public abstract void loadDefaultValue();
 
     protected abstract void updateDisplayValue();
 
-    public void update() {
-        option.setValue(value);
-    }
+    public abstract void update();
+
+    protected abstract boolean isDefaultValue();
 
     public int getHeight() {
         return 21;
@@ -80,7 +74,7 @@ public abstract class OptionListItem extends ScrollableListItem<OptionListItem> 
         renderTypeSpecific(index, pos, size, mouse);
 
         if (resetButton != null) {
-            resetButton.enabled = !option.getDefaultValue().equals(value);
+            resetButton.enabled = !isDefaultValue();
             resetButton.render(mouse);
         }
     }

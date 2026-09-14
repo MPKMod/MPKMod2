@@ -3,6 +3,7 @@ package io.github.kurrycat.mpkmod.ticks;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.kurrycat.mpkmod.compatibility.API;
+import io.github.kurrycat.mpkmod.settings.Settings;
 import io.github.kurrycat.mpkmod.util.MathUtil;
 import io.github.kurrycat.mpkmod.util.Tuple;
 import io.github.kurrycat.mpkmod.util.input.InputPredicateReference;
@@ -172,7 +173,7 @@ public final class Timing {
         public boolean check(HashMap<String, TickMS> vars) {
             if (isDefault) return true;
             if (checkMS != null)
-                return TimingStorage.renderLastTimingMS && vars.containsKey(checkMS) && vars.get(checkMS).ms != null;
+                return Settings.renderLastTimingMS.getValue() && vars.containsKey(checkMS) && vars.get(checkMS).ms != null;
             if (condition == null) return false;
             return condition.check(vars);
         }

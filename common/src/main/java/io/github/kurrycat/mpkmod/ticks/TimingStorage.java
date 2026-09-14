@@ -2,7 +2,6 @@ package io.github.kurrycat.mpkmod.ticks;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.kurrycat.mpkmod.compatibility.API;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
 import io.github.kurrycat.mpkmod.save.Serializer;
 import io.github.kurrycat.mpkmod.util.FileUtil;
 
@@ -17,13 +16,6 @@ public class TimingStorage {
     private final static String defaultStratFileName = "/assets/mpkmod/strats/strats.json";
     private final static String stratFileName = "config/mpk/config/strats.json";
     public static Map<String, Timing> patterns = new HashMap<>();
-
-    @Option.Field(
-            category = "labels",
-            displayName = "Display ms for lastTiming",
-            description = "Enable whether milliseconds should be shown in the lastTiming infoVar"
-    )
-    public static boolean renderLastTimingMS = false;
 
     public static void init() {
         InputStream stratFile = FileUtil.getResource(defaultStratFileName);

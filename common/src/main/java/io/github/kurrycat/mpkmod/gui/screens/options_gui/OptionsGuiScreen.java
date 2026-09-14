@@ -1,17 +1,19 @@
 package io.github.kurrycat.mpkmod.gui.screens.options_gui;
 
-import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.gui.ComponentScreen;
 import io.github.kurrycat.mpkmod.gui.components.Anchor;
 import io.github.kurrycat.mpkmod.gui.components.Button;
 import io.github.kurrycat.mpkmod.gui.components.ScrollableList;
-import io.github.kurrycat.mpkmod.save.Serializer;
-import io.github.kurrycat.mpkmod.util.JSONConfig;
+import io.github.kurrycat.mpkmod.settings.BooleanSetting;
+import io.github.kurrycat.mpkmod.settings.Setting;
+import io.github.kurrycat.mpkmod.settings.Settings;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+// TODO: This whole gui needs a cleanup
+// We no longer need the apply button
+// Theres a lot of most likely unnecessary code
 public class OptionsGuiScreen extends ComponentScreen {
     private OptionList optionList;
 
@@ -26,7 +28,7 @@ public class OptionsGuiScreen extends ComponentScreen {
         optionList = new OptionList(
                 new Vector2D(0, 16),
                 new Vector2D(3 / 5D, -40),
-                new ArrayList<>(API.optionsMap.values())
+                (ArrayList<Setting>) Settings.getSettingsList()
         );
         addChild(optionList, PERCENT.SIZE_X, Anchor.TOP_CENTER);
 
@@ -65,9 +67,8 @@ public class OptionsGuiScreen extends ComponentScreen {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        Option.saveOptionMapToJSON();
+        Settings.saveSettings();
     }
-
 
     public void render(Vector2D mouse, float partialTicks) {
         super.render(mouse, partialTicks);
@@ -75,27 +76,19 @@ public class OptionsGuiScreen extends ComponentScreen {
     }
 
     public static class OptionList extends ScrollableList<OptionListItem> {
-        public OptionList(Vector2D pos, Vector2D size, ArrayList<Option> options) {
+        public OptionList(Vector2D pos, Vector2D size, ArrayList<Setting> options) {
             this.setPos(pos);
             this.setSize(size);
             this.setTitle("Options");
             items.clear();
-            for (Option option : options) {
-                if(!option.shouldShowInOptionList()) continue;
+            for (Setting option : options) {
+                //if(!option.shouldShowInOptionList()) continue;
 
                 OptionListItem item;
-                switch (option.getType()) {
-                    case BOOLEAN:
-                        item = new OptionListItemBoolean(this, option);
-                        break;
-                    case STRING:
-                        item = new OptionListItemString(this, option);
-                        break;
-                    case INTEGER:
-                        item = new OptionListItemInteger(this, option);
-                        break;
-                    default:
-                        item = new OptionListItemDefault(this, option);
+                if (option instanceof BooleanSetting) {
+                    item = new OptionListItemBoolean(this, (BooleanSetting) option);
+                } else {
+                    continue;
                 }
                 items.add(item);
             }

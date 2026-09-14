@@ -4,7 +4,7 @@ import io.github.kurrycat.mpkmod.Main;
 import io.github.kurrycat.mpkmod.gui.components.Button;
 import io.github.kurrycat.mpkmod.gui.components.Label;
 import io.github.kurrycat.mpkmod.gui.components.*;
-import io.github.kurrycat.mpkmod.gui.screens.options_gui.Option;
+import io.github.kurrycat.mpkmod.settings.Settings;
 import io.github.kurrycat.mpkmod.util.ItrUtil;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 import io.github.kurrycat.mpkmod.util.WorldToFile;
@@ -21,8 +21,7 @@ public class OptionsPane extends Pane<MainGuiScreen> {
 
     @Override
     public void close() {
-        Option.updateOptionMapFromFields();
-        Option.saveOptionMapToJSON();
+        Settings.saveSettings();
         super.close();
     }
 
