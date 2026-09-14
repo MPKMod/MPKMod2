@@ -20,6 +20,7 @@ import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Util;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -135,25 +136,30 @@ public class EventHandler {
 
     public void onClientTickEnd(Minecraft mc) {
         if (mc.isPaused() || mc.level == null) return;
-        LocalPlayer mcPlayer = mc.player;
+        Entity cameraEntity = mc.getCameraEntity();
 
-        if (mcPlayer != null) {
-            AABB playerBB = mcPlayer.getBoundingBox();
-            new Player()
-                    .setPos(new Vector3D(mcPlayer.getX(), mcPlayer.getY(), mcPlayer.getZ()))
-                    .setLastPos(new Vector3D(mcPlayer.xo, mcPlayer.yo, mcPlayer.zo))
-                    .setMotion(new Vector3D(mcPlayer.getDeltaMovement().x, mcPlayer.getDeltaMovement().y, mcPlayer.getDeltaMovement().z))
-                    .setRotation(mcPlayer.getRotationVector().y, mcPlayer.getRotationVector().x)
-                    .setOnGround(mcPlayer.onGround())
-                    .setSprinting(mcPlayer.isSprinting())
+        if (cameraEntity != null) {
+            AABB cameraEntityBB = cameraEntity.getBoundingBox();
+            Player mpkPlayer = new Player()
+                    .setPos(new Vector3D(cameraEntity.getX(), cameraEntity.getY(), cameraEntity.getZ()))
+                    .setLastPos(new Vector3D(cameraEntity.xo, cameraEntity.yo, cameraEntity.zo))
+                    .setMotion(new Vector3D(cameraEntity.getDeltaMovement().x, cameraEntity.getDeltaMovement().y, cameraEntity.getDeltaMovement().z))
+                    .setRotation(cameraEntity.getRotationVector().y, cameraEntity.getRotationVector().x)
+                    .setOnGround(cameraEntity.onGround())
+                    .setSprinting(cameraEntity.isSprinting())
                     .setBoundingBox(new BoundingBox3D(
-                            new Vector3D(playerBB.minX, playerBB.minY, playerBB.minZ),
-                            new Vector3D(playerBB.maxX, playerBB.maxY, playerBB.maxZ)
+                            new Vector3D(cameraEntityBB.minX, cameraEntityBB.minY, cameraEntityBB.minZ),
+                            new Vector3D(cameraEntityBB.maxX, cameraEntityBB.maxY, cameraEntityBB.maxZ)
                     ))
-                    .setFlying(mcPlayer.getAbilities().flying)
                     .constructKeyInput()
-                    .setKeyMSList(timeQueue)
-                    .buildAndSave();
+                    .setKeyMSList(timeQueue);
+
+            if (cameraEntity instanceof net.minecraft.world.entity.player.Player player) {
+                mpkPlayer.setFlying(player.getAbilities().flying);
+            }
+
+            mpkPlayer.buildAndSave();
+
             timeQueue.clear();
         }
 

@@ -129,6 +129,13 @@ public class Minecraft {
         sprintToggled = !sprintToggled;
     }
 
+    public static Player.KeyInput getKeyInput() {
+        return Interface.get().map(Interface::getKeyInput).orElseGet(() -> {
+            API.LOGGER.info(API.COMPATIBILITY_MARKER, "Failed to get inputs, are you playing on an unsupported minecraft version?");
+            return null;
+        });
+    }
+
 
     public enum WorldState {
         MENU,
@@ -165,5 +172,7 @@ public class Minecraft {
         boolean isF3Enabled();
 
         void sendPacket(MPKPacket packet);
+
+        Player.KeyInput getKeyInput();
     }
 }

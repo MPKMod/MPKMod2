@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -31,6 +32,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -464,5 +466,45 @@ public class FunctionCompatibility implements FunctionHolder,
      */
     public void endSection() {
         Minecraft.getMinecraft().mcProfiler.endSection();
+    }
+
+    @Override
+    public Player.KeyInput getKeyInput() {
+        Entity ce = Minecraft.getMinecraft().getRenderViewEntity();
+        if (!(ce instanceof EntityLivingBase)) return new Player.KeyInput();
+
+        boolean w, a, s, d, sprint, sneak, jump;
+        if (ce instanceof EntityPlayerSP) {
+            GameSettings gs = Minecraft.getMinecraft().gameSettings;
+
+            w = gs.keyBindForward.isKeyDown();
+            a = gs.keyBindLeft.isKeyDown();
+            s = gs.keyBindBack.isKeyDown();
+            d = gs.keyBindRight.isKeyDown();
+
+            sprint = gs.keyBindSprint.isKeyDown();
+            sneak = gs.keyBindSneak.isKeyDown();
+            jump = gs.keyBindJump.isKeyDown();
+        } else {
+            EntityLivingBase elb = (EntityLivingBase) ce;
+
+            w = elb.moveForward > 0;
+            a = elb.moveStrafing > 0;
+            s = elb.moveForward < 0;
+            d = elb.moveStrafing < 0;
+
+            sprint = elb.isSprinting();
+            sneak = elb.isSneaking();
+
+            jump = false;
+            try {
+                Field isJumpingField = EntityLivingBase.class.getDeclaredField("isJumping");
+                isJumpingField.setAccessible(true);
+
+                jump = isJumpingField.getBoolean(elb);
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {}
+        }
+
+        return new Player.KeyInput(w, a, s, d, sprint, sneak, jump);
     }
 }
