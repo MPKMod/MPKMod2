@@ -9,9 +9,10 @@ import io.github.kurrycat.mpkmod.util.BoundingBox3D;
 import io.github.kurrycat.mpkmod.util.Mouse;
 import io.github.kurrycat.mpkmod.util.Vector3D;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -102,28 +103,33 @@ public class EventListener {
     public void onTick(TickEvent.ClientTickEvent e) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.isGamePaused() || mc.theWorld == null) return;
-        EntityPlayerSP mcPlayer = mc.thePlayer;
+        Entity cameraEntity = mc.getRenderViewEntity();
 
         if (e.type != TickEvent.Type.CLIENT) return;
         if (e.side != Side.CLIENT) return;
 
-        if (mcPlayer != null && e.phase == TickEvent.Phase.END) {
-            AxisAlignedBB playerBB = mcPlayer.getEntityBoundingBox();
-            new Player()
-                    .setPos(new Vector3D(mcPlayer.posX, mcPlayer.posY, mcPlayer.posZ))
-                    .setLastPos(new Vector3D(mcPlayer.lastTickPosX, mcPlayer.lastTickPosY, mcPlayer.lastTickPosZ))
-                    .setMotion(new Vector3D(mcPlayer.motionX, mcPlayer.motionY, mcPlayer.motionZ))
-                    .setRotation(mcPlayer.rotationYaw, mcPlayer.rotationPitch)
-                    .setOnGround(mcPlayer.onGround)
-                    .setSprinting(mcPlayer.isSprinting())
+        if (cameraEntity != null && e.phase == TickEvent.Phase.END) {
+            AxisAlignedBB cameraEntityBB = cameraEntity.getEntityBoundingBox();
+            Player mpkPlayer = new Player()
+                    .setPos(new Vector3D(cameraEntity.posX, cameraEntity.posY, cameraEntity.posZ))
+                    .setLastPos(new Vector3D(cameraEntity.lastTickPosX, cameraEntity.lastTickPosY, cameraEntity.lastTickPosZ))
+                    .setMotion(new Vector3D(cameraEntity.motionX, cameraEntity.motionY, cameraEntity.motionZ))
+                    .setRotation(cameraEntity.rotationYaw, cameraEntity.rotationPitch)
+                    .setOnGround(cameraEntity.onGround)
+                    .setSprinting(cameraEntity.isSprinting())
                     .setBoundingBox(new BoundingBox3D(
-                        new Vector3D(playerBB.minX, playerBB.minY, playerBB.minZ),
-                        new Vector3D(playerBB.maxX, playerBB.maxY, playerBB.maxZ)
+                        new Vector3D(cameraEntityBB.minX, cameraEntityBB.minY, cameraEntityBB.minZ),
+                        new Vector3D(cameraEntityBB.maxX, cameraEntityBB.maxY, cameraEntityBB.maxZ)
                     ))
-                    .setFlying(mcPlayer.capabilities.isFlying)
                     .constructKeyInput()
-                    .setKeyMSList(timeQueue.copy())
-                    .buildAndSave();
+                    .setKeyMSList(timeQueue.copy());
+
+            if (cameraEntity instanceof EntityPlayer) {
+                mpkPlayer.setFlying(((EntityPlayer) cameraEntity).capabilities.isFlying);
+            }
+
+            mpkPlayer.buildAndSave();
+
             timeQueue.clear();
         }
         if (e.phase == TickEvent.Phase.START) {
