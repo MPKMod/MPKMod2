@@ -2,7 +2,7 @@ package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.viaversion.viafabricplus.ViaFabricPlus;
-import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
+import com.viaversion.viafabricplus.api.ViaFabricPlusAPI;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
 import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
@@ -55,9 +55,9 @@ public class MPKMod implements ModInitializer {
 
         if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
 
-        ViaFabricPlusBase platform = ViaFabricPlus.getImpl();
+        ViaFabricPlusAPI platform = ViaFabricPlus.api();
 
-        platform.registerOnChangeProtocolVersionCallback((oldVersion, newVersion) -> {
+        platform.addChangeProtocolVersionListener((oldVersion, newVersion) -> {
             String newVersionName = newVersion.getName();
 
             io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.vfpVersion = (

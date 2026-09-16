@@ -22,7 +22,7 @@ dependencies {
 
     implementation include("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
-    compileOnly "com.viaversion:viafabricplus-api:4.5.4"
+    compileOnly "com.viaversion:viafabricplus-api:5.0.1"
     compileOnly "com.terraformersmc:modmenu:20.0.0-beta.2"
 
     implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
