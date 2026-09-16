@@ -79,7 +79,15 @@ public class Settings {
 
     public static void loadSettings() {
         ArrayNode settings = Serializer.deserialize(JSONConfig.optionsFile, ArrayNode.class);
-        if (settings == null) return;
+        if (settings == null) {
+            if (JSONConfig.optionsFile.exists()) {
+                JSONConfig.optionsFile.delete();
+            } else {
+                saveSettings();
+            }
+
+            return;
+        }
 
         for (Setting setting : SETTINGS_LIST) {
             for (int i = 0; i < settings.size(); i++) {
