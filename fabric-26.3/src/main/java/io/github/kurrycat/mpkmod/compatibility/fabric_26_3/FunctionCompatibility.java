@@ -1,10 +1,10 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.*;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin.KeyMappingAccessor;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.network.DataCustomPayload;
 import io.github.kurrycat.mpkmod.gui.MPKGuiScreen;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
 import io.github.kurrycat.mpkmod.util.Debug;
@@ -264,7 +264,7 @@ public class FunctionCompatibility implements FunctionHolder,
         net.minecraft.client.Minecraft.getInstance().gui.setScreen(
                 screen == null
                         ? null
-                        : new io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen(screen));
+                        : new io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKGuiScreen(screen));
     }
 
     public String getCurrentGuiScreen() {
@@ -272,8 +272,8 @@ public class FunctionCompatibility implements FunctionHolder,
 
         if (curr == null)
             return null;
-        else if (curr instanceof io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen) {
-            String id = ((io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKGuiScreen) curr).eventReceiver.getID();
+        else if (curr instanceof io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKGuiScreen) {
+            String id = ((io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKGuiScreen) curr).eventReceiver.getID();
             if (id == null)
                 id = "unknown";
 

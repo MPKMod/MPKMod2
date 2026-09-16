@@ -1,6 +1,6 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin;
 
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKMod;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKMod;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

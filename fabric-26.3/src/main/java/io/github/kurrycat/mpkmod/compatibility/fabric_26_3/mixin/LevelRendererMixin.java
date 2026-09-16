@@ -1,7 +1,7 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKMod;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;

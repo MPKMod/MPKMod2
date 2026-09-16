@@ -1,4 +1,4 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

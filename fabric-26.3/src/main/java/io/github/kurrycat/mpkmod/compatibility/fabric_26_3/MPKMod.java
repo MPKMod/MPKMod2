@@ -1,11 +1,12 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.viaversion.viafabricplus.ViaFabricPlus;
 import com.viaversion.viafabricplus.api.ViaFabricPlusAPI;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.network.DataCustomPayload;
 import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -36,7 +37,7 @@ public class MPKMod implements ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         API.LOGGER.info("Loading " + API.NAME + " " + API.VERSION);
         API.preInit(getClass());
-        registerKeybindingsFromGUIs();
+        //registerKeybindingsFromGUIs();
 
         HudElementRegistry.attachElementBefore(VanillaHudElements.PLAYER_LIST, Identifier.fromNamespaceAndPath(API.MODID, "hud_layer"), eventHandler::onInGameOverlayRender);
         ClientTickEvents.START_CLIENT_TICK.register(eventHandler::onClientTickStart);
@@ -81,7 +82,7 @@ public class MPKMod implements ModInitializer {
     public void registerKeyBinding(String id) {
         net.minecraft.client.KeyMapping keyBinding = new net.minecraft.client.KeyMapping(
                 API.MODID + ".key." + id + ".desc",
-                -1,
+                InputConstants.UNKNOWN.getValue(),
                 KEYBINDING_CATEGORY
         );
 
