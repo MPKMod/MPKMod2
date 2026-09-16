@@ -82,7 +82,6 @@ public class Settings {
         if (settings == null) {
             if (JSONConfig.optionsFile.exists()) {
                 JSONConfig.optionsFile.delete();
-                saveSettings();
             } else {
                 saveSettings();
             }
