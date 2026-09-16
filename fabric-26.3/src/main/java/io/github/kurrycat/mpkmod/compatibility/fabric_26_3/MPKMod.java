@@ -37,7 +37,7 @@ public class MPKMod implements ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         API.LOGGER.info("Loading " + API.NAME + " " + API.VERSION);
         API.preInit(getClass());
-        //registerKeybindingsFromGUIs();
+        registerKeybindingsFromGUIs();
 
         HudElementRegistry.attachElementBefore(VanillaHudElements.PLAYER_LIST, Identifier.fromNamespaceAndPath(API.MODID, "hud_layer"), eventHandler::onInGameOverlayRender);
         ClientTickEvents.START_CLIENT_TICK.register(eventHandler::onClientTickStart);
