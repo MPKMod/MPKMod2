@@ -1,10 +1,10 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Player;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin.KeyMappingAccessor;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin.KeyMappingAccessor;
 import io.github.kurrycat.mpkmod.ticks.ButtonMS;
 import io.github.kurrycat.mpkmod.ticks.ButtonMSList;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
@@ -18,7 +18,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -37,7 +36,7 @@ public class EventHandler {
         Options options = Minecraft.getInstance().options;
         long eventNanos = Util.getNanos();
 
-        InputConstants.Key inputKey = InputConstants.getKey(new KeyEvent(input.key(), input.scancode(), input.modifiers()));
+        InputConstants.Key inputKey = InputConstants.getKey(new KeyEvent(input.key(), input.keycode(), input.modifiers()));
 
         int[] keys = {
                 ((KeyMappingAccessor) options.keyUp).getKey().getValue(),

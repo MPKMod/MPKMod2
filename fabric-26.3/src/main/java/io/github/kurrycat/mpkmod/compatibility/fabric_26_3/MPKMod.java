@@ -1,11 +1,12 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.viaversion.viafabricplus.ViaFabricPlus;
-import com.viaversion.viafabricplus.api.ViaFabricPlusBase;
+import com.viaversion.viafabricplus.api.ViaFabricPlusAPI;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.KeyBinding;
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.network.DataCustomPayload;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.network.DataCustomPayload;
 import io.github.kurrycat.mpknetapi.common.network.packet.MPKPacket;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -55,9 +56,9 @@ public class MPKMod implements ModInitializer {
 
         if (!FabricLoader.getInstance().isModLoaded("viafabricplus")) return;
 
-        ViaFabricPlusBase platform = ViaFabricPlus.getImpl();
+        ViaFabricPlusAPI platform = ViaFabricPlus.api();
 
-        platform.registerOnChangeProtocolVersionCallback((oldVersion, newVersion) -> {
+        platform.addChangeProtocolVersionListener((oldVersion, newVersion) -> {
             String newVersionName = newVersion.getName();
 
             io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft.vfpVersion = (
@@ -81,7 +82,7 @@ public class MPKMod implements ModInitializer {
     public void registerKeyBinding(String id) {
         net.minecraft.client.KeyMapping keyBinding = new net.minecraft.client.KeyMapping(
                 API.MODID + ".key." + id + ".desc",
-                -1,
+                InputConstants.UNKNOWN.getValue(),
                 KEYBINDING_CATEGORY
         );
 

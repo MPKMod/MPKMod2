@@ -1,4 +1,4 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Profiler;
@@ -75,7 +75,7 @@ public class MPKGuiScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        eventReceiver.onKeyEvent(input.key(), input.scancode(), input.modifiers(), false);
+        eventReceiver.onKeyEvent(input.key(), input.keycode(), input.modifiers(), false);
         return super.keyPressed(input);
     }
 

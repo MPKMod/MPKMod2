@@ -1,6 +1,6 @@
-package io.github.kurrycat.mpkmod.compatibility.fabric_26_2.mixin;
+package io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin;
 
-import io.github.kurrycat.mpkmod.compatibility.fabric_26_2.MPKMod;
+import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.MPKMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -22,9 +22,9 @@ public class MouseHandlerMixin {
     private double ypos;
 
     @Inject(method = "onMove", at = @At(value = "TAIL"))
-    private void onCursorPos(long window, double x, double y, CallbackInfo ci) {
-        if (window == Minecraft.getInstance().getWindow().handle()) {
-            MPKMod.INSTANCE.eventHandler.onMouseMove(x, y, accumulatedDX, -accumulatedDY);
+    private void onCursorPos(long handle, double xpos, double ypos, double xrel, double yrel, CallbackInfo ci) {
+        if (handle == Minecraft.getInstance().getWindow().handle()) {
+            MPKMod.INSTANCE.eventHandler.onMouseMove(xpos, ypos, accumulatedDX, -accumulatedDY);
         }
     }
 
