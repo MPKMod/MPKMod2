@@ -3,6 +3,7 @@ package io.github.kurrycat.mpkmod.gui;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Minecraft;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
 import io.github.kurrycat.mpkmod.gui.components.ComponentHolder;
+import io.github.kurrycat.mpkmod.util.Mouse;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 
 import java.awt.*;
@@ -59,13 +60,13 @@ public abstract class MPKGuiScreen extends ComponentHolder {
     public void onKeyEvent(int keyCode, int scanCode, int modifiers, boolean pressed) {
     }
 
-    public void onMouseClicked(Vector2D mouse, int mouseButton) {
+    public void onMouseClicked(Vector2D mouse, Mouse.Button mouseButton) {
     }
 
-    public void onMouseClickMove(Vector2D mouse, int mouseButton, long timeSinceLastClick) {
+    public void onMouseClickMove(Vector2D mouse, Mouse.Button mouseButton, long timeSinceLastClick) {
     }
 
-    public void onMouseReleased(Vector2D mouse, int mouseButton) {
+    public void onMouseReleased(Vector2D mouse, Mouse.Button mouseButton) {
     }
 
     /**

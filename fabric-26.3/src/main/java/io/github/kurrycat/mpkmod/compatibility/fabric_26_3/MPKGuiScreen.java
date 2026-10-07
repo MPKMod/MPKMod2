@@ -57,19 +57,19 @@ public class MPKGuiScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
-        eventReceiver.onMouseClicked(new Vector2D(click.x(), click.y()), click.button());
+        eventReceiver.onMouseClicked(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()));
         return super.mouseClicked(click, doubled);
     }
 
     @Override
     public boolean mouseReleased(MouseButtonEvent click) {
-        eventReceiver.onMouseReleased(new Vector2D(click.x(), click.y()), click.button());
+        eventReceiver.onMouseReleased(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()));
         return super.mouseReleased(click);
     }
 
     @Override
     public boolean mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
-        eventReceiver.onMouseClickMove(new Vector2D(click.x(), click.y()), click.button(), 0);
+        eventReceiver.onMouseClickMove(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()), 0);
         return super.mouseDragged(click, offsetX, offsetY);
     }
 
