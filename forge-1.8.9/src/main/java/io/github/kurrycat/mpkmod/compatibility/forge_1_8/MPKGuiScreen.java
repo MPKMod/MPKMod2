@@ -77,19 +77,19 @@ public class MPKGuiScreen extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        eventReceiver.onMouseClicked(new Vector2D(mouseX, mouseY), mouseButton);
+        eventReceiver.onMouseClicked(new Vector2D(mouseX, mouseY), io.github.kurrycat.mpkmod.util.Mouse.Button.fromInt(mouseButton));
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
-        eventReceiver.onMouseClickMove(new Vector2D(mouseX, mouseY), clickedMouseButton, timeSinceLastClick);
+        eventReceiver.onMouseClickMove(new Vector2D(mouseX, mouseY), io.github.kurrycat.mpkmod.util.Mouse.Button.fromInt(clickedMouseButton), timeSinceLastClick);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-        eventReceiver.onMouseReleased(new Vector2D(mouseX, mouseY), state);
+        eventReceiver.onMouseReleased(new Vector2D(mouseX, mouseY), io.github.kurrycat.mpkmod.util.Mouse.Button.fromInt(state));
     }
 
     @Override

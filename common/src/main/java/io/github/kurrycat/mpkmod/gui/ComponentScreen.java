@@ -90,14 +90,14 @@ public abstract class ComponentScreen extends MPKGuiScreen implements PaneHolder
         }
     }
 
-    public void onMouseClicked(Vector2D mouse, int mouseButton) {
+    public void onMouseClicked(Vector2D mouse, Mouse.Button mouseButton) {
         super.onMouseClicked(mouse, mouseButton);
 
-        if (handleMouseInput(Mouse.State.DOWN, mouse, Mouse.Button.fromInt(mouseButton))) return;
+        if (handleMouseInput(Mouse.State.DOWN, mouse, mouseButton)) return;
 
         if (movableComponents.isEmpty()) return;
 
-        if (Mouse.Button.LEFT.equals(mouseButton)) {
+        if (Mouse.Button.LEFT.equals(mouseButton.value)) {
             highlighted.clear();
             lastClickedPos = mouse;
 
@@ -111,7 +111,7 @@ public abstract class ComponentScreen extends MPKGuiScreen implements PaneHolder
                 selected.add(clicked);
                 holding.add(clicked);
             }
-        } else if (Mouse.Button.RIGHT.equals(mouseButton)) {
+        } else if (Mouse.Button.RIGHT.equals(mouseButton.value)) {
             highlighted.clear();
             if (lastClickedPos != null && lastClicked == null) {
                 lastClickedPos = null;
@@ -207,24 +207,24 @@ public abstract class ComponentScreen extends MPKGuiScreen implements PaneHolder
         }
     }
 
-    public void onMouseClickMove(Vector2D mouse, int mouseButton, long timeSinceLastClick) {
+    public void onMouseClickMove(Vector2D mouse, Mouse.Button mouseButton, long timeSinceLastClick) {
         super.onMouseClickMove(mouse, mouseButton, timeSinceLastClick);
 
-        if (handleMouseInput(Mouse.State.DRAG, mouse, Mouse.Button.fromInt(mouseButton))) return;
+        if (handleMouseInput(Mouse.State.DRAG, mouse, mouseButton)) return;
 
         if (movableComponents.isEmpty()) return;
 
         selected = selected.stream().filter(c -> holding.contains(c)).collect(Collectors.toCollection(HashSet::new));
     }
 
-    public void onMouseReleased(Vector2D mouse, int mouseButton) {
+    public void onMouseReleased(Vector2D mouse, Mouse.Button mouseButton) {
         super.onMouseReleased(mouse, mouseButton);
 
-        if (handleMouseInput(Mouse.State.UP, mouse, Mouse.Button.fromInt(mouseButton))) return;
+        if (handleMouseInput(Mouse.State.UP, mouse, mouseButton)) return;
 
         if (movableComponents.isEmpty()) return;
 
-        if (Mouse.Button.LEFT.equals(mouseButton) && lastClickedPos != null) {
+        if (Mouse.Button.LEFT.equals(mouseButton.value) && lastClickedPos != null) {
             boolean moved = lastClickedPos.sub(mouse).lengthSqr() > 3 * 3;
             if (!moved && lastClicked != null) {
                 selected.clear();

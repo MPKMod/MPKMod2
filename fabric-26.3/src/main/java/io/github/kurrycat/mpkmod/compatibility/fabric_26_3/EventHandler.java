@@ -87,8 +87,8 @@ public class EventHandler {
 
     public void onMouseButton(MouseButtonInfo input, int action, double x, double y) {
         API.Events.onMouseInput(
-                io.github.kurrycat.mpkmod.util.Mouse.Button.fromInt(input.button()),
-                input.button() == -1 ? io.github.kurrycat.mpkmod.util.Mouse.State.NONE :
+                io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(input.button()),
+                input.button() == 0 ? io.github.kurrycat.mpkmod.util.Mouse.State.NONE :
                         (action == 1 ? io.github.kurrycat.mpkmod.util.Mouse.State.DOWN : io.github.kurrycat.mpkmod.util.Mouse.State.UP),
                 (int) x, (int) y, 0, 0,
                 0, System.nanoTime()
