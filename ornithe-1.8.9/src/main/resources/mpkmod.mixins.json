@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.kurrycat.mpkmod.compatibility.ornithe_1_8_9.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixinextras": {"minVersion": "0.5.5"},
+  "client": [
+    "aw.LivingEntityAccessor",
+    "MixinGameGui",
+    "MixinGameRenderer",
+    "MixinMinecraft",
+    "MixinToggleSprintKey"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

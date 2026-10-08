@@ -129,17 +129,20 @@ configure(
 
             // Fix unimined runs bug
             afterEvaluate {
-                runClient.doFirst {
-                    var classPathFile = null
-                    if (project.name.startsWith("forge")) classPathFile = "legacy_classpath"
-                    if (project.name.startsWith("fabric")) classPathFile = "remapClasspath"
+                def runClientTask = project.tasks.findByName('runClient')
+                if (runClientTask != null) {
+                    runClientTask.doFirst {
+                        var classPathFile = null
+                        if (project.name.startsWith("forge")) classPathFile = "legacy_classpath"
+                        if (project.name.startsWith("fabric")) classPathFile = "remapClasspath"
 
-                    if (classPathFile != null) {
-                        logger.lifecycle("Fixing ${classPathFile}")
-                        copy {
-                            from "${rootProject.buildDir}/unimined/classpaths/${classPathFile}-${project.name}.txt"
-                            into "${rootProject.buildDir}/unimined"
-                            rename { "${classPathFile}.txt" }
+                        if (classPathFile != null) {
+                            logger.lifecycle("Fixing ${classPathFile}")
+                            copy {
+                                from "${rootProject.buildDir}/unimined/classpaths/${classPathFile}-${project.name}.txt"
+                                into "${rootProject.buildDir}/unimined"
+                                rename { "${classPathFile}.txt" }
+                            }
                         }
                     }
                 }

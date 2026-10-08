@@ -1,0 +1,49 @@
+plugins {
+    id 'net.fabricmc.fabric-loom-remap' version '1.18.3'
+    id 'ploceus' version '1.18.1'
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+}
+
+loom {
+    runs.client.runDir = "../runs/run"
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    mappings ploceus.featherMappings(project.feather_build)
+
+    ploceus.dependOsl(project.osl_version)
+
+    modImplementation "com.terraformersmc:modmenu:0.5.0+mc1.8.9"
+
+    implementation "com.github.MPKMod.MPKNetworkAPI:common:${project.networkApiVersion}"
+}
+
+processResources {
+    inputs.property 'version', version
+
+    filesMatching('fabric.mod.json') {
+        expand 'version': version
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    changelog = ""
+    type = STABLE
+    version = project.version
+    modLoaders.add("ornithe")
+
+    modrinth {
+        projectId = "412tAvWq"
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.add("1.8.9")
+    }
+    /*github {
+        repository = "MPKMod/MPKMod2"
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        commitish = "main"
+    }*/
+}
