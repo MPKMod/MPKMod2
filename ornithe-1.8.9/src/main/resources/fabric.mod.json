@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "mpkmod",
+  "version": "${version}",
+  "name": "MPK Mod",
+  "description": "A Mod that adds some features that help parkour to the game.",
+  "authors": [
+    "kurrycat",
+    "Exterminate",
+    "Zpiboo",
+    "Contributors"
+  ],
+  "contact": {
+    "sources": "https://github.com/MPKMod/MPKMod2"
+  },
+  "license": "MIT",
+  "icon": "mpkmod_logo.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "io.github.kurrycat.mpkmod.compatibility.ornithe_1_8_9.MPKMod"
+    ],
+    "modmenu": [
+      "io.github.kurrycat.mpkmod.compatibility.ornithe_1_8_9.MPKModMenu"
+    ]
+  },
+  "mixins": [
+    "mpkmod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "1.8.9",
+    "osl-entrypoints": ">=0.4.0"
+  }
+}

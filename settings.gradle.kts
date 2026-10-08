@@ -12,6 +12,10 @@ pluginManagement {
             name = "FabricMaven"
             url = uri("https://maven.fabricmc.net/")
         }
+        maven {
+            name = "Ornithe Releases"
+            url = uri("https://maven.ornithemc.net/releases")
+        }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -25,6 +29,7 @@ include("common")
 
 if (System.getenv("JITPACK") == null) {
     include("forge-1.8.9")
+    include("ornithe-1.8.9")
     include("forge-1.12.2")
     include("fabric-26.3")
 }

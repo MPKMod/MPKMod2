@@ -166,7 +166,7 @@ public class AnglePath extends ResizableComponent implements MouseScrollListener
         }
 
         int movementCount = p.deltaMouseX.length;
-        if (movementCount == 0) return;
+        if (movementCount == 0 || dataPoints.isEmpty()) return;
 
         int x = dataPoints.getFirst().x[dataPoints.getFirst().x.length - 1];
         int y = dataPoints.getFirst().y[dataPoints.getFirst().y.length - 1];
