@@ -8,6 +8,7 @@ import io.github.kurrycat.mpkmod.compatibility.fabric_26_3.mixin.KeyMappingAcces
 import io.github.kurrycat.mpkmod.ticks.ButtonMS;
 import io.github.kurrycat.mpkmod.ticks.ButtonMSList;
 import io.github.kurrycat.mpkmod.util.BoundingBox3D;
+import io.github.kurrycat.mpkmod.util.Mouse;
 import io.github.kurrycat.mpkmod.util.Vector3D;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.DeltaTracker;
@@ -69,8 +70,8 @@ public class EventHandler {
 
     public void onMouseMove(double x, double y, double dx, double dy) {
         API.Events.onMouseInput(
-                io.github.kurrycat.mpkmod.util.Mouse.Button.NONE,
-                io.github.kurrycat.mpkmod.util.Mouse.State.NONE,
+                Mouse.Button.NONE,
+                Mouse.State.NONE,
                 (int) x, (int) y, (int) dx, (int) dy,
                 0, System.nanoTime()
         );
@@ -78,8 +79,8 @@ public class EventHandler {
 
     public void onMouseScroll(double vertical, double x, double y) {
         API.Events.onMouseInput(
-                io.github.kurrycat.mpkmod.util.Mouse.Button.NONE,
-                io.github.kurrycat.mpkmod.util.Mouse.State.NONE,
+                Mouse.Button.NONE,
+                Mouse.State.NONE,
                 (int) x, (int) y, 0, 0,
                 (int) vertical, System.nanoTime()
         );
@@ -87,9 +88,9 @@ public class EventHandler {
 
     public void onMouseButton(MouseButtonInfo input, int action, double x, double y) {
         API.Events.onMouseInput(
-                io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(input.button()),
-                input.button() == 0 ? io.github.kurrycat.mpkmod.util.Mouse.State.NONE :
-                        (action == 1 ? io.github.kurrycat.mpkmod.util.Mouse.State.DOWN : io.github.kurrycat.mpkmod.util.Mouse.State.UP),
+                Mouse.Button.fromIntLatest(input.button()),
+                input.button() == 0 ? Mouse.State.NONE :
+                        (action == 1 ? Mouse.State.DOWN : Mouse.State.UP),
                 (int) x, (int) y, 0, 0,
                 0, System.nanoTime()
         );
