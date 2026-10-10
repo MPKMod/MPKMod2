@@ -63,9 +63,8 @@ public class EventHandler {
 
         API.Events.onKeyInput(input.key(), inputKey.getDisplayName().getString(), action == 1);
 
-        if (action != 0) {
-            checkKeyBinding(input.key());
-        }
+        if (action != 0)
+            checkKeyBinding( InputConstants.Type.KEYBOARD.getOrCreate(input.key()) );
     }
 
     public void onMouseMove(double x, double y, double dx, double dy) {
@@ -96,17 +95,17 @@ public class EventHandler {
         );
 
         if (action == 1)
-            checkKeyBinding(input.button());
+            checkKeyBinding( InputConstants.Type.MOUSE.getOrCreate(input.button()) );
     }
 
-    private void checkKeyBinding(int keyCode) {
+    private void checkKeyBinding(InputConstants.Key key) {
         if (Minecraft.getInstance().gui.screen() != null) return;
 
         for (Map.Entry<String, KeyMapping> keyBindingEntry : MPKMod.keyBindingMap.entrySet()) {
             InputConstants.Key boundKey = ((KeyMappingAccessor) keyBindingEntry.getValue()).getKey();
             String keyBindId = keyBindingEntry.getKey();
 
-            if (boundKey.getValue() == keyCode) {
+            if (boundKey == key) {
                 API.Events.onKeybind(keyBindId);
                 return;
             }
