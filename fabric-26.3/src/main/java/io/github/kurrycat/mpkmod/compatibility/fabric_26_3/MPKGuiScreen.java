@@ -3,6 +3,7 @@ package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 import io.github.kurrycat.mpkmod.compatibility.API;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Profiler;
 import io.github.kurrycat.mpkmod.util.MathUtil;
+import io.github.kurrycat.mpkmod.util.Mouse;
 import io.github.kurrycat.mpkmod.util.Vector2D;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
@@ -57,19 +58,19 @@ public class MPKGuiScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
-        eventReceiver.onMouseClicked(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()));
+        eventReceiver.onMouseClicked(new Vector2D(click.x(), click.y()), Mouse.Button.fromIntLatest(click.button()));
         return super.mouseClicked(click, doubled);
     }
 
     @Override
     public boolean mouseReleased(MouseButtonEvent click) {
-        eventReceiver.onMouseReleased(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()));
+        eventReceiver.onMouseReleased(new Vector2D(click.x(), click.y()), Mouse.Button.fromIntLatest(click.button()));
         return super.mouseReleased(click);
     }
 
     @Override
     public boolean mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
-        eventReceiver.onMouseClickMove(new Vector2D(click.x(), click.y()), io.github.kurrycat.mpkmod.util.Mouse.Button.fromIntLatest(click.button()), 0);
+        eventReceiver.onMouseClickMove(new Vector2D(click.x(), click.y()), Mouse.Button.fromIntLatest(click.button()), 0);
         return super.mouseDragged(click, offsetX, offsetY);
     }
 
