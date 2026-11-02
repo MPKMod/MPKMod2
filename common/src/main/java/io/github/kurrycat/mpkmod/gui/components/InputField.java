@@ -2,6 +2,7 @@ package io.github.kurrycat.mpkmod.gui.components;
 
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.FontRenderer;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.InputConstants;
+import io.github.kurrycat.mpkmod.compatibility.MCClasses.Keyboard;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
 import io.github.kurrycat.mpkmod.gui.interfaces.KeyInputListener;
 import io.github.kurrycat.mpkmod.gui.interfaces.MouseInputListener;
@@ -49,6 +50,7 @@ public class InputField extends Component implements KeyInputListener, MouseInpu
 
     public void setFocused(boolean focused) {
         isFocused = focused;
+        Keyboard.textInputFocusChange(this, focused);
     }
 
     public InputField setName(String name) {

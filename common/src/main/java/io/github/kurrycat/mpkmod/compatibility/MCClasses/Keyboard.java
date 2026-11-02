@@ -11,6 +11,10 @@ public class Keyboard {
         return Interface.get().map(Interface::getPressedButtons).orElseGet(ArrayList::new);
     }
 
+    public static void textInputFocusChange(Object owner, boolean focused) {
+        Keyboard.Interface.get().ifPresent(i -> i.textInputFocusChange(owner, focused));
+    }
+
     public enum Modifier {
         CTRL,
         SHIFT,
@@ -25,5 +29,7 @@ public class Keyboard {
         }
 
         List<Integer> getPressedButtons();
+
+        void textInputFocusChange(Object owner, boolean focused);
     }
 }

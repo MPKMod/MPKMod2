@@ -1,5 +1,6 @@
 package io.github.kurrycat.mpkmod.compatibility.fabric_26_3;
 
+import com.mojang.blaze3d.platform.TextInputManager;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.*;
@@ -402,6 +403,12 @@ public class FunctionCompatibility implements FunctionHolder,
         }
 
         return new Player.KeyInput(w, a, s, d, sprint, sneak, jump);
+    }
+
+    @Override
+    public void textInputFocusChange(Object owner, boolean focused) {
+        TextInputManager textInputManager = net.minecraft.client.Minecraft.getInstance().textInputManager();
+        textInputManager.onTextInputFocusChange(owner, focused);
     }
 
     private record PointsRenderState(
