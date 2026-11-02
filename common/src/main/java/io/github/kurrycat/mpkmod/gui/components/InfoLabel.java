@@ -205,7 +205,7 @@ public class InfoLabel extends Label implements TickThread.Tickable {
             addButton.setButtonCallback(mouseButton -> {
                 if (mouseButton != Mouse.Button.LEFT) return;
                 inputField.typeContentAtCursor("{" + infoVar.getFullName() + "}");
-                inputField.focus();
+                inputField.setFocused(true);
             });
             buttonHolder.passPositionTo(addButton, PERCENT.NONE, Anchor.CENTER_RIGHT);
             components.add(addButton);
@@ -296,7 +296,7 @@ public class InfoLabel extends Label implements TickThread.Tickable {
                     new Vector2D(0, 0), new Vector2D(1, 1),
                     mouseButton -> {
                         inputField.typeContentAtCursor("{" + color.getName() + "}");
-                        inputField.focus();
+                        inputField.setFocused(true);
                     }
             );
             button.normalColor = Theme.NONE;
