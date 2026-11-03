@@ -2,6 +2,7 @@ package io.github.kurrycat.mpkmod.gui.components;
 
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.FontRenderer;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.InputConstants;
+import io.github.kurrycat.mpkmod.compatibility.MCClasses.Keyboard;
 import io.github.kurrycat.mpkmod.compatibility.MCClasses.Renderer2D;
 import io.github.kurrycat.mpkmod.gui.interfaces.KeyInputListener;
 import io.github.kurrycat.mpkmod.gui.interfaces.MouseInputListener;
@@ -47,8 +48,9 @@ public class InputField extends Component implements KeyInputListener, MouseInpu
         this(content, pos, width, false);
     }
 
-    public void focus() {
-        isFocused = true;
+    public void setFocused(boolean focused) {
+        isFocused = focused;
+        Keyboard.textInputFocusChange(this, focused);
     }
 
     public InputField setName(String name) {
@@ -118,11 +120,11 @@ public class InputField extends Component implements KeyInputListener, MouseInpu
     }
 
     @Override
-    public boolean handleKeyInput(int keyCode, int scanCode, int modifiers, boolean isCharTyped) {
+    public boolean handleKeyInput(int keyCode, int scanCode, int modifiers, boolean pressed) {
         if (!isFocused) return false;
         boolean inputPerformed = true;
 
-        if (isCharTyped && String.valueOf((char) keyCode).matches(getFilter())) {
+        if (pressed && String.valueOf((char) keyCode).matches(getFilter())) {
             typeContentAtCursor(Character.toString((char) keyCode));
         } else {
             switch (keyCode) {
@@ -196,7 +198,7 @@ public class InputField extends Component implements KeyInputListener, MouseInpu
     }
 
     public void clear() {
-        isFocused = false;
+        setFocused(false);
         cursorPos = 0;
         highlightStart = 0;
         highlightEnd = 0;
@@ -209,13 +211,13 @@ public class InputField extends Component implements KeyInputListener, MouseInpu
             switch (state) {
                 case DOWN:
                     if (contains(mousePos)) {
-                        isFocused = true;
+                        setFocused(true);
                         cursorPos = getCursorPosFromMousePos(mousePos);
                         highlightStart = cursorPos;
                         highlightEnd = cursorPos;
                         return true;
                     } else {
-                        isFocused = false;
+                        setFocused(false);
                     }
                 case DRAG:
                 case UP:

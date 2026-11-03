@@ -506,4 +506,7 @@ public class FunctionCompatibility implements FunctionHolder,
 
         return new Player.KeyInput(w, a, s, d, sprint, sneak, jump);
     }
+
+    @Override
+    public void textInputFocusChange(Object owner, boolean focused) {}
 }
